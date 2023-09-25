@@ -1,0 +1,44 @@
+name: todo
+description: A new Flutter project.
+
+
+publish_to: 'none' 
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  flutter_bloc: ^8.0.1
+  dio: ^5.3.3
+  cross_connectivity: ^3.0.3
+  get_it: ^7.2.0
+  intl: ^0.18.1
+  equatable: ^2.0.3
+  rxdart: ^0.27.7
+  objectbox: ^2.3.0
+  path_provider: ^2.1.1
+  json_serializable: ^6.7.1
+  json_annotation: ^4.8.1
+  freezed: ^2.4.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+  build_runner: ^2.4.6
+  mocktail: ^1.0.0
+  bloc_test: ^9.1.4
+  mocktail_image_network: ^1.0.0
+  http_mock_adapter: ^0.6.0
+  flutter_lints: ^2.0.3
+  objectbox_generator: ^2.3.0
+
+flutter:
+
+  uses-material-design: true
