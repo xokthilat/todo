@@ -65,12 +65,12 @@ mixin _$NetworkError {
 /// @nodoc
 abstract class $NetworkErrorCopyWith<$Res> {
   factory $NetworkErrorCopyWith(
-          NetworkError value, $Res Function(NetworkError) then) =
-      _$NetworkErrorCopyWithImpl<$Res, NetworkError>;
+          TodoError value, $Res Function(TodoError) then) =
+      _$NetworkErrorCopyWithImpl<$Res, TodoError>;
 }
 
 /// @nodoc
-class _$NetworkErrorCopyWithImpl<$Res, $Val extends NetworkError>
+class _$NetworkErrorCopyWithImpl<$Res, $Val extends TodoError>
     implements $NetworkErrorCopyWith<$Res> {
   _$NetworkErrorCopyWithImpl(this._value, this._then);
 
@@ -210,7 +210,7 @@ class _$_ResponseError extends _ResponseError {
   }
 }
 
-abstract class _ResponseError extends NetworkError {
+abstract class _ResponseError extends TodoError {
   const factory _ResponseError({required final DioException error}) =
       _$_ResponseError;
   const _ResponseError._() : super._();
@@ -351,7 +351,7 @@ class _$_DecodingError extends _DecodingError {
   }
 }
 
-abstract class _DecodingError extends NetworkError {
+abstract class _DecodingError extends TodoError {
   const factory _DecodingError({final String? error}) = _$_DecodingError;
   const _DecodingError._() : super._();
 
@@ -491,7 +491,7 @@ class _$_Connectivity extends _Connectivity {
   }
 }
 
-abstract class _Connectivity extends NetworkError {
+abstract class _Connectivity extends TodoError {
   const factory _Connectivity({final String? message}) = _$_Connectivity;
   const _Connectivity._() : super._();
 

@@ -21,7 +21,7 @@ class NetworkExecuter {
       required this.networkCreator,
       required this.networkDecoder,
       required this.debugMode});
-  Future<Result<K, NetworkError>> execute<T extends BaseNetworkModel, K>(
+  Future<Result<K, TodoError>> execute<T extends BaseNetworkModel, K>(
       {required BaseClientGenerator route,
       required T responseType,
       dynamic mockData,
@@ -47,26 +47,25 @@ class NetworkExecuter {
         // NETWORK ERROR
       } on DioException catch (dioError) {
         if (debugMode) {
-          print("$route => ${NetworkError.request(error: dioError)}");
+          print("$route => ${TodoError.request(error: dioError)}");
         }
-        return Result.failure(NetworkError.request(error: dioError));
+        return Result.failure(TodoError.request(error: dioError));
 
         // TYPE ERROR
       } on TypeError catch (e) {
         if (debugMode) {
-          print("$route => ${NetworkError.type(error: e.toString())}");
+          print("$route => ${TodoError.type(error: e.toString())}");
         }
-        return Result.failure(NetworkError.type(error: e.toString()));
+        return Result.failure(TodoError.type(error: e.toString()));
       }
 
       // No Internet Connection
     } else {
       if (debugMode) {
-        print(
-            const NetworkError.connectivity(message: 'No Internet Connection'));
+        print(const TodoError.connectivity(message: 'No Internet Connection'));
       }
     }
     return const Result.failure(
-        NetworkError.connectivity(message: 'No Internet Connection'));
+        TodoError.connectivity(message: 'No Internet Connection'));
   }
 }

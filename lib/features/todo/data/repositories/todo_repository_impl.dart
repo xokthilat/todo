@@ -25,8 +25,7 @@ class TodoRepositoryImpl implements TodoRepository {
   bool isAsc = true;
 
   @override
-  Future<Result<List<Todo>, NetworkError>> getTodoList(
-      TodoStatus status) async {
+  Future<Result<List<Todo>, TodoError>> getTodoList(TodoStatus status) async {
     try {
       if (await networkConnectivity.status) {
         var result = await networkExecuter.execute<TodoModel, List<Todo>>(
@@ -48,65 +47,65 @@ class TodoRepositoryImpl implements TodoRepository {
       } else {
         return Result.success(objectboxService.todos);
       }
-    } on NetworkError catch (e) {
+    } on TodoError catch (e) {
       return Result.failure(e);
     } catch (e) {
-      return Result.failure(NetworkError.type(error: e.toString()));
+      return Result.failure(TodoError.type(error: e.toString()));
     }
   }
 
   @override
-  Result<List<Todo>, NetworkError> deleteTodoList(String id) {
+  Result<List<Todo>, TodoError> deleteTodoList(String id) {
     try {
       objectboxService.delteTodos(id);
       return Result.success(objectboxService.todos);
     } catch (e) {
-      return Result.failure(NetworkError.type(error: e.toString()));
+      return Result.failure(TodoError.type(error: e.toString()));
     }
   }
 
   @override
-  Result<Auth, NetworkError> get getAuthDetail {
+  Result<Auth, TodoError> get getAuthDetail {
     try {
       return Result.success(objectboxService.getAuthDetail);
     } catch (e) {
-      return Result.failure(NetworkError.type(error: e.toString()));
+      return Result.failure(TodoError.type(error: e.toString()));
     }
   }
 
   @override
-  Result<int, NetworkError> setLastOnline(DateTime time) {
+  Result<int, TodoError> setLastOnline(DateTime time) {
     try {
       return Result.success(objectboxService.setLastOnline(time));
     } catch (e) {
-      return Result.failure(NetworkError.type(error: e.toString()));
+      return Result.failure(TodoError.type(error: e.toString()));
     }
   }
 
   @override
-  Result<int, NetworkError> setLastTouch(DateTime time) {
+  Result<int, TodoError> setLastTouch(DateTime time) {
     try {
       return Result.success(objectboxService.setLastTouch(time));
     } catch (e) {
-      return Result.failure(NetworkError.type(error: e.toString()));
+      return Result.failure(TodoError.type(error: e.toString()));
     }
   }
 
   @override
-  Result<int, NetworkError> setPasscode(int passcode) {
+  Result<int, TodoError> setPasscode(int passcode) {
     try {
       return Result.success(objectboxService.setPasscode(passcode));
     } catch (e) {
-      return Result.failure(NetworkError.type(error: e.toString()));
+      return Result.failure(TodoError.type(error: e.toString()));
     }
   }
 
   @override
-  Result<bool, NetworkError> checkPasscode(int passcode) {
+  Result<bool, TodoError> checkPasscode(int passcode) {
     try {
       return Result.success(objectboxService.checkPasscode(passcode));
     } catch (e) {
-      return Result.failure(NetworkError.type(error: e.toString()));
+      return Result.failure(TodoError.type(error: e.toString()));
     }
   }
 }

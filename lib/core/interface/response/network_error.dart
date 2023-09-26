@@ -4,11 +4,11 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'network_error.freezed.dart';
 
 @freezed
-class NetworkError with _$NetworkError implements Exception {
-  const NetworkError._() : super();
+class TodoError with _$NetworkError implements Exception {
+  const TodoError._() : super();
 
-  const factory NetworkError.request({required DioException error}) =
+  const factory TodoError.request({required DioException error}) =
       _ResponseError;
-  const factory NetworkError.type({String? error}) = _DecodingError;
-  const factory NetworkError.connectivity({String? message}) = _Connectivity;
+  const factory TodoError.type({String? error}) = _DecodingError;
+  const factory TodoError.connectivity({String? message}) = _Connectivity;
 }
