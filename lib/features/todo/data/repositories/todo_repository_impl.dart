@@ -50,7 +50,7 @@ class TodoRepositoryImpl implements TodoRepository {
     } on TodoError catch (e) {
       return Result.failure(e);
     } catch (e) {
-      return Result.failure(TodoError.type(error: e.toString()));
+      return Result.failure(DecodingError(error: e.toString()));
     }
   }
 
@@ -60,7 +60,7 @@ class TodoRepositoryImpl implements TodoRepository {
       objectboxService.delteTodos(id);
       return Result.success(objectboxService.todos);
     } catch (e) {
-      return Result.failure(TodoError.type(error: e.toString()));
+      return Result.failure(LocalRequestError(error: e.toString()));
     }
   }
 
@@ -69,7 +69,7 @@ class TodoRepositoryImpl implements TodoRepository {
     try {
       return Result.success(objectboxService.authDetail);
     } catch (e) {
-      return Result.failure(TodoError.type(error: e.toString()));
+      return Result.failure(LocalRequestError(error: e.toString()));
     }
   }
 
@@ -78,7 +78,7 @@ class TodoRepositoryImpl implements TodoRepository {
     try {
       return Result.success(objectboxService.setLastOnline(time));
     } catch (e) {
-      return Result.failure(TodoError.type(error: e.toString()));
+      return Result.failure(LocalRequestError(error: e.toString()));
     }
   }
 
@@ -87,25 +87,25 @@ class TodoRepositoryImpl implements TodoRepository {
     try {
       return Result.success(objectboxService.setLastTouch(time));
     } catch (e) {
-      return Result.failure(TodoError.type(error: e.toString()));
+      return Result.failure(LocalRequestError(error: e.toString()));
     }
   }
 
   @override
-  Result<int, TodoError> setPasscode(int passcode) {
+  Result<int, TodoError> setPasscode(String passcode) {
     try {
       return Result.success(objectboxService.setPasscode(passcode));
     } catch (e) {
-      return Result.failure(TodoError.type(error: e.toString()));
+      return Result.failure(LocalRequestError(error: e.toString()));
     }
   }
 
   @override
-  Result<bool, TodoError> checkPasscode(int passcode) {
+  Result<bool, TodoError> checkPasscode(String passcode) {
     try {
       return Result.success(objectboxService.checkPasscode(passcode));
     } catch (e) {
-      return Result.failure(TodoError.type(error: e.toString()));
+      return Result.failure(LocalRequestError(error: e.toString()));
     }
   }
 }

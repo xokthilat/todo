@@ -47,25 +47,24 @@ class NetworkExecuter {
         // NETWORK ERROR
       } on DioException catch (dioError) {
         if (debugMode) {
-          print("$route => ${TodoError.request(error: dioError)}");
+          print("$route => ${RequestError(error: dioError)}");
         }
-        return Result.failure(TodoError.request(error: dioError));
+        return Result.failure(RequestError(error: dioError));
 
         // TYPE ERROR
       } on TypeError catch (e) {
         if (debugMode) {
-          print("$route => ${TodoError.type(error: e.toString())}");
+          print("$route => ${DecodingError(error: e.toString())}");
         }
-        return Result.failure(TodoError.type(error: e.toString()));
+        return Result.failure(DecodingError(error: e.toString()));
       }
 
       // No Internet Connection
     } else {
       if (debugMode) {
-        print(const TodoError.connectivity(message: 'No Internet Connection'));
+        print(ConnectivityError(error: 'No Internet Connection'));
       }
     }
-    return const Result.failure(
-        TodoError.connectivity(message: 'No Internet Connection'));
+    return Result.failure(ConnectivityError(error: 'No Internet Connection'));
   }
 }

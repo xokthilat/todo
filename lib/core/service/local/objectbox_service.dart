@@ -71,8 +71,15 @@ class ObjectboxService {
     return todoBox.put(auth);
   }
 
-  int setPasscode(int passcode) {
+  int setPasscode(String passcode) {
     final todoBox = _dataBase.box<AuthDao>();
+    if (authDetail == null) {
+      final auth = AuthDao(
+          lastTouch: DateTime.now(),
+          lastOnline: DateTime.now(),
+          passcode: passcode);
+      return todoBox.put(auth);
+    }
     final auth = todoBox.getAll().first;
     auth.passcode = passcode;
     return todoBox.put(auth);
@@ -83,7 +90,7 @@ class ObjectboxService {
     return todoBox.getAll().firstOrNull;
   }
 
-  bool checkPasscode(int passcode) {
+  bool checkPasscode(String passcode) {
     final todoBox = _dataBase.box<AuthDao>();
     final auth = todoBox.getAll().first;
     return auth.passcode == passcode;

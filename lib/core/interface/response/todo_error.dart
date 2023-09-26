@@ -1,14 +1,28 @@
 import 'package:dio/dio.dart';
-// ignore: depend_on_referenced_packages
-import 'package:freezed_annotation/freezed_annotation.dart';
-part 'todo_error.freezed.dart';
 
-@freezed
-class TodoError with _$TodoError implements Exception {
-  const TodoError._() : super();
+sealed class TodoError implements Exception {}
 
-  const factory TodoError.request({required DioException error}) =
-      _ResponseError;
-  const factory TodoError.type({String? error}) = _DecodingError;
-  const factory TodoError.connectivity({String? message}) = _Connectivity;
+class RequestError extends TodoError {
+  final DioException error;
+  RequestError({required this.error});
+}
+
+class DecodingError extends TodoError {
+  final String? error;
+  DecodingError({required this.error});
+}
+
+class ConnectivityError extends TodoError {
+  final String? error;
+  ConnectivityError({required this.error});
+}
+
+class UnknownError extends TodoError {
+  final String? error;
+  UnknownError({required this.error});
+}
+
+class LocalRequestError extends TodoError {
+  final String? error;
+  LocalRequestError({required this.error});
 }

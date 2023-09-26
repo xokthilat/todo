@@ -108,6 +108,9 @@ class _PasscodeScreenState extends State<PasscodeScreen>
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   widget.title,
+                  const SizedBox(
+                    height: 40,
+                  ),
                   Container(
                     margin: const EdgeInsets.only(top: 20),
                     height: 40,
@@ -115,6 +118,9 @@ class _PasscodeScreenState extends State<PasscodeScreen>
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: _buildCircles(),
                     ),
+                  ),
+                  const SizedBox(
+                    height: 40,
                   ),
                   _buildKeyboard(),
                   widget.bottomWidget ?? Container()

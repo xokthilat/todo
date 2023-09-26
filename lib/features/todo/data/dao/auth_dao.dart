@@ -15,7 +15,7 @@ class AuthDao implements Auth {
   @override
   DateTime lastOnline;
   @override
-  int passcode;
+  String passcode;
   AuthDao(
       {this.id = 0,
       required this.lastTouch,

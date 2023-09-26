@@ -11,7 +11,7 @@ class KeyboardUIConfig {
   final TextStyle deleteButtonTextStyle;
   final Color primaryColor;
   final Color digitFillColor;
-  final EdgeInsetsGeometry keyboardRowMargin;
+  // final EdgeInsetsGeometry keyboardRowMargin;
   final EdgeInsetsGeometry digitInnerMargin;
 
   //Size for the keyboard can be define and provided from the app.
@@ -20,7 +20,7 @@ class KeyboardUIConfig {
 
   const KeyboardUIConfig({
     this.digitBorderWidth = 1,
-    this.keyboardRowMargin = const EdgeInsets.only(top: 15, left: 4, right: 4),
+    // this.keyboardRowMargin = const EdgeInsets.only(top: 15, left: 4, right: 4),
     this.digitInnerMargin = const EdgeInsets.all(24),
     this.primaryColor = Colors.white,
     this.digitFillColor = Colors.transparent,
@@ -78,7 +78,8 @@ class Keyboard extends StatelessWidget {
               onKeyboardTap(event.logicalKey.keyLabel);
               return;
             }
-            if (event.logicalKey.keyLabel== 'Backspace' || event.logicalKey.keyLabel == 'Delete') {
+            if (event.logicalKey.keyLabel == 'Backspace' ||
+                event.logicalKey.keyLabel == 'Delete') {
               onKeyboardTap(Keyboard.deleteButton);
               return;
             }
@@ -96,7 +97,7 @@ class Keyboard extends StatelessWidget {
 
   Widget _buildKeyboardDigit(String text) {
     return Container(
-      margin: EdgeInsets.all(4),
+      margin: EdgeInsets.all(13),
       child: ClipOval(
         child: Material(
           color: Colors.transparent,

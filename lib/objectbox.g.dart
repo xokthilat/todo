@@ -84,7 +84,7 @@ final _entities = <ModelEntity>[
         ModelProperty(
             id: const IdUid(4, 4666402132775005527),
             name: 'passcode',
-            type: 6,
+            type: 9,
             flags: 0)
       ],
       relations: <ModelRelation>[],
@@ -187,11 +187,12 @@ ModelDefinition getObjectBoxModel() {
           object.id = id;
         },
         objectToFB: (AuthDao object, fb.Builder fbb) {
+          final passcodeOffset = fbb.writeString(object.passcode);
           fbb.startTable(5);
           fbb.addInt64(0, object.id);
           fbb.addInt64(1, object.lastTouch.millisecondsSinceEpoch);
           fbb.addInt64(2, object.lastOnline.millisecondsSinceEpoch);
-          fbb.addInt64(3, object.passcode);
+          fbb.addOffset(3, passcodeOffset);
           fbb.finish(fbb.endTable());
           return object.id;
         },
@@ -204,8 +205,8 @@ ModelDefinition getObjectBoxModel() {
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 6, 0));
           final lastOnlineParam = DateTime.fromMillisecondsSinceEpoch(
               const fb.Int64Reader().vTableGet(buffer, rootOffset, 8, 0));
-          final passcodeParam =
-              const fb.Int64Reader().vTableGet(buffer, rootOffset, 10, 0);
+          final passcodeParam = const fb.StringReader(asciiOptimization: true)
+              .vTableGet(buffer, rootOffset, 10, '');
           final object = AuthDao(
               id: idParam,
               lastTouch: lastTouchParam,
@@ -259,5 +260,5 @@ class AuthDao_ {
 
   /// see [AuthDao.passcode]
   static final passcode =
-      QueryIntegerProperty<AuthDao>(_entities[1].properties[3]);
+      QueryStringProperty<AuthDao>(_entities[1].properties[3]);
 }
