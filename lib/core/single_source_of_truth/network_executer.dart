@@ -2,7 +2,7 @@
 
 import 'package:todo/core/interface/api_client/base_client_generator.dart';
 import 'package:todo/core/interface/models/base_network_model.dart';
-import 'package:todo/core/interface/response/network_error.dart';
+import 'package:todo/core/interface/response/todo_error.dart';
 import 'package:todo/core/interface/response/result.dart';
 import 'package:todo/core/service/network_connectivity.dart';
 import 'package:todo/core/service/network_creator.dart';

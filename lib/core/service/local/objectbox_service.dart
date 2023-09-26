@@ -18,6 +18,7 @@ class ObjectboxService {
     initDB();
     if (kDebugMode) {
       print(todos);
+      print(authDetail);
     }
     return _store!;
   }
@@ -77,9 +78,9 @@ class ObjectboxService {
     return todoBox.put(auth);
   }
 
-  AuthDao get getAuthDetail {
+  AuthDao? get authDetail {
     final todoBox = _dataBase.box<AuthDao>();
-    return todoBox.getAll().first;
+    return todoBox.getAll().firstOrNull;
   }
 
   bool checkPasscode(int passcode) {

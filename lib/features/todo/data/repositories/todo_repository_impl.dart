@@ -1,4 +1,4 @@
-import 'package:todo/core/interface/response/network_error.dart';
+import 'package:todo/core/interface/response/todo_error.dart';
 import 'package:todo/core/interface/response/result.dart';
 import 'package:todo/core/service/api_holder.dart';
 import 'package:todo/core/service/local/objectbox_service.dart';
@@ -65,9 +65,9 @@ class TodoRepositoryImpl implements TodoRepository {
   }
 
   @override
-  Result<Auth, TodoError> get getAuthDetail {
+  Result<Auth?, TodoError> get getAuthDetail {
     try {
-      return Result.success(objectboxService.getAuthDetail);
+      return Result.success(objectboxService.authDetail);
     } catch (e) {
       return Result.failure(TodoError.type(error: e.toString()));
     }

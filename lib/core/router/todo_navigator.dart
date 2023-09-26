@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Navigatior {
+class TodoNavigator {
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
   Future<dynamic> navigateTo(String routeName, {var params}) {

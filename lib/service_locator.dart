@@ -4,6 +4,7 @@ import 'package:cross_connectivity/cross_connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:todo/core/router/todo_navigator.dart';
 import 'package:todo/core/service/local/objectbox_service.dart';
 import 'package:todo/core/service/network_connectivity.dart';
 import 'package:todo/core/service/network_creator.dart';
@@ -23,6 +24,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => NetworkConnectivity(connectivity: sl()));
   sl.registerLazySingleton(() => Dio());
   sl.registerLazySingleton(() => Connectivity());
+  sl.registerLazySingleton(() => TodoNavigator());
 
   final dir = Directory((await getApplicationDocumentsDirectory()).path);
   sl.registerLazySingleton(() => ObjectboxService(dir.path));

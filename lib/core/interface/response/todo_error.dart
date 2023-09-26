@@ -1,10 +1,10 @@
 import 'package:dio/dio.dart';
 // ignore: depend_on_referenced_packages
 import 'package:freezed_annotation/freezed_annotation.dart';
-part 'network_error.freezed.dart';
+part 'todo_error.freezed.dart';
 
 @freezed
-class TodoError with _$NetworkError implements Exception {
+class TodoError with _$TodoError implements Exception {
   const TodoError._() : super();
 
   const factory TodoError.request({required DioException error}) =

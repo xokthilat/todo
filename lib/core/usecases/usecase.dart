@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:todo/core/interface/response/network_error.dart';
+import 'package:todo/core/interface/response/todo_error.dart';
 import 'package:todo/core/interface/response/result.dart';
 
 abstract class UseCase<Type, Params> {

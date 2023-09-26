@@ -1,6 +1,6 @@
 import 'package:todo/features/todo/domain/repositories/todo_repository.dart';
 
-import '../../../../core/interface/response/network_error.dart';
+import '../../../../core/interface/response/todo_error.dart';
 import '../../../../core/interface/response/result.dart';
 import '../../../../core/usecases/usecase.dart';
 

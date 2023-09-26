@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'network_error.dart';
+part of 'todo_error.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
 /// @nodoc
-mixin _$NetworkError {
+mixin _$TodoError {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(DioException error) request,
@@ -63,16 +63,15 @@ mixin _$NetworkError {
 }
 
 /// @nodoc
-abstract class $NetworkErrorCopyWith<$Res> {
-  factory $NetworkErrorCopyWith(
-          TodoError value, $Res Function(TodoError) then) =
-      _$NetworkErrorCopyWithImpl<$Res, TodoError>;
+abstract class $TodoErrorCopyWith<$Res> {
+  factory $TodoErrorCopyWith(TodoError value, $Res Function(TodoError) then) =
+      _$TodoErrorCopyWithImpl<$Res, TodoError>;
 }
 
 /// @nodoc
-class _$NetworkErrorCopyWithImpl<$Res, $Val extends TodoError>
-    implements $NetworkErrorCopyWith<$Res> {
-  _$NetworkErrorCopyWithImpl(this._value, this._then);
+class _$TodoErrorCopyWithImpl<$Res, $Val extends TodoError>
+    implements $TodoErrorCopyWith<$Res> {
+  _$TodoErrorCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -91,7 +90,7 @@ abstract class _$$_ResponseErrorCopyWith<$Res> {
 
 /// @nodoc
 class __$$_ResponseErrorCopyWithImpl<$Res>
-    extends _$NetworkErrorCopyWithImpl<$Res, _$_ResponseError>
+    extends _$TodoErrorCopyWithImpl<$Res, _$_ResponseError>
     implements _$$_ResponseErrorCopyWith<$Res> {
   __$$_ResponseErrorCopyWithImpl(
       _$_ResponseError _value, $Res Function(_$_ResponseError) _then)
@@ -121,7 +120,7 @@ class _$_ResponseError extends _ResponseError {
 
   @override
   String toString() {
-    return 'NetworkError.request(error: $error)';
+    return 'TodoError.request(error: $error)';
   }
 
   @override
@@ -232,7 +231,7 @@ abstract class _$$_DecodingErrorCopyWith<$Res> {
 
 /// @nodoc
 class __$$_DecodingErrorCopyWithImpl<$Res>
-    extends _$NetworkErrorCopyWithImpl<$Res, _$_DecodingError>
+    extends _$TodoErrorCopyWithImpl<$Res, _$_DecodingError>
     implements _$$_DecodingErrorCopyWith<$Res> {
   __$$_DecodingErrorCopyWithImpl(
       _$_DecodingError _value, $Res Function(_$_DecodingError) _then)
@@ -262,7 +261,7 @@ class _$_DecodingError extends _DecodingError {
 
   @override
   String toString() {
-    return 'NetworkError.type(error: $error)';
+    return 'TodoError.type(error: $error)';
   }
 
   @override
@@ -372,7 +371,7 @@ abstract class _$$_ConnectivityCopyWith<$Res> {
 
 /// @nodoc
 class __$$_ConnectivityCopyWithImpl<$Res>
-    extends _$NetworkErrorCopyWithImpl<$Res, _$_Connectivity>
+    extends _$TodoErrorCopyWithImpl<$Res, _$_Connectivity>
     implements _$$_ConnectivityCopyWith<$Res> {
   __$$_ConnectivityCopyWithImpl(
       _$_Connectivity _value, $Res Function(_$_Connectivity) _then)
@@ -402,7 +401,7 @@ class _$_Connectivity extends _Connectivity {
 
   @override
   String toString() {
-    return 'NetworkError.connectivity(message: $message)';
+    return 'TodoError.connectivity(message: $message)';
   }
 
   @override
