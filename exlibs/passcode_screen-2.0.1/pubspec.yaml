@@ -1,0 +1,18 @@
+name: passcode_screen
+description: A platform agnostic Flutter package for showing passcode input screen, similar to Native iOS. Screen customizable with a colors, sizes, fonts etc.
+version: 2.0.1
+homepage: 'https://github.com/xPutnikx/flutter-passcode'
+
+environment:
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  mockito: ^5.0.2
+
+flutter:

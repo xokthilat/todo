@@ -26,7 +26,8 @@ dependencies:
   json_serializable: ^6.7.1
   json_annotation: ^4.8.1
   freezed: ^2.4.1
-  passcode_screen: ^2.0.1
+  passcode_screen:
+    path: ./exlibs/passcode_screen-2.0.1
 
 dev_dependencies:
   flutter_test:
