@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:panara_dialogs/panara_dialogs.dart';
 import 'package:todo/constants.dart';
+import 'package:todo/core/router/todo_navigator.dart';
 import 'package:todo/core/style/todo_textstyle.dart';
+import 'package:todo/service_locator.dart';
 
 import '../widgets/chip_tab.dart';
 
@@ -125,8 +128,6 @@ class TodoByDay extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<TooltipState> tooltipkey = GlobalKey<TooltipState>();
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -162,39 +163,26 @@ class TodoByDay extends StatelessWidget {
             const Spacer(),
             Column(
               children: [
-                Tooltip(
-                  key: tooltipkey,
-                  padding: EdgeInsets.zero,
-                  margin: EdgeInsets.zero,
-                  decoration: BoxDecoration(
-                    color: greyColor,
-                    borderRadius: BorderRadius.circular(10),
+                InkWell(
+                  onTap: () => PanaraConfirmDialog.show(
+                    context,
+                    title: "Warning",
+                    message: "Are you sure you want to delete this task?",
+                    panaraDialogType: PanaraDialogType.error,
+                    barrierDismissible: true,
+                    confirmButtonText: 'Yes',
+                    cancelButtonText: 'No',
+                    onTapConfirm: () {},
+                    onTapCancel: () {
+                      //popback
+                      sl<TodoNavigator>().popBack();
+                    }, // optional parameter (default is true)
                   ),
-                  triggerMode: TooltipTriggerMode.manual,
-                  richMessage: TextSpan(
-                    children: <InlineSpan>[
-                      WidgetSpan(
-                          alignment: PlaceholderAlignment.baseline,
-                          baseline: TextBaseline.alphabetic,
-                          child: GestureDetector(
-                            onTap: (() {
-                              print("object");
-                            }),
-                            child: TextButton(
-                              onPressed: (() {}),
-                              child: "Delete".p.blackColor,
-                            ),
-                          )),
-                    ],
-                  ),
-                  child: InkWell(
-                    onTap: () {
-                      tooltipkey.currentState?.ensureTooltipVisible();
-                    },
-                    child: Icon(
-                      Icons.more_vert,
-                      color: Colors.grey,
-                    ),
+                  //make minus icon
+                  child: const Icon(
+                    Icons.clear,
+                    color: Colors.grey,
+                    size: 20,
                   ),
                 ),
               ],
