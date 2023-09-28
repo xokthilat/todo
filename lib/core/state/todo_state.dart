@@ -9,6 +9,14 @@ class TodoLoading<T> extends TodoState<T> {}
 class TodoLoaded<T> extends TodoState<T> {
   final T data;
   const TodoLoaded(this.data);
+
+  TodoLoaded<T> copyWith({
+    T? data,
+  }) {
+    return TodoLoaded<T>(
+      data ?? this.data,
+    );
+  }
 }
 
 class TodoErrorState<T> extends TodoState<T> {

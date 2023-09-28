@@ -12,11 +12,17 @@ extension TodoTextColorExt on String {
 extension TodoTextExt on TodoTextColor {
   Widget get highlightColor => Text(
         text,
-        style: highlight,
+        style: highlight.copyWith(
+          overflow: TextOverflow.ellipsis,
+        ),
+        maxLines: 2,
       );
   Widget get blackColor => Text(
         text,
-        style: black,
+        style: black.copyWith(
+          overflow: TextOverflow.ellipsis,
+        ),
+        maxLines: 2,
       );
 }
 
@@ -32,13 +38,13 @@ class TodoTextStyle {
       text);
   static TodoTextColor h3(String text) => TodoTextColor(
       const TextStyle(
-          fontSize: 25, fontWeight: FontWeight.bold, fontFamily: 'montserrat'),
+          fontSize: 20, fontWeight: FontWeight.bold, fontFamily: 'montserrat'),
       text);
   static TodoTextColor p(String text) =>
       TodoTextColor(const TextStyle(fontFamily: 'montserrat'), text);
   static TodoTextColor pBold(String text) => TodoTextColor(
       const TextStyle(
-          fontFamily: 'montserrat', fontWeight: FontWeight.bold, fontSize: 20),
+          fontFamily: 'montserrat', fontWeight: FontWeight.bold, fontSize: 15),
       text);
 }
 

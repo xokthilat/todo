@@ -42,7 +42,9 @@ class TodoRepositoryImpl implements TodoRepository {
         offset += limit;
         return result.when(success: (data) {
           objectboxService.saveTodos(data.tasks);
-          return Result.success(objectboxService.todos);
+          return Result.success(objectboxService.todos
+              .where((todo) => todo.status == status)
+              .toList());
         }, failure: (TodoError error) {
           return Result.failure(error);
         });

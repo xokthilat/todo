@@ -15,7 +15,6 @@ bool isDateTimeMoreThanNSecondsAgo(DateTime dateTime, int n) {
 
 Route generateRoute(RouteSettings settings) {
   final localDatabase = sl<ObjectboxService>();
-  return _getRoute(settings.name!, const Homepage());
   final authDetail = localDatabase.authDetail;
   if (authDetail == null) {
     return _getRoute(
@@ -24,9 +23,9 @@ Route generateRoute(RouteSettings settings) {
           isSetPasscode: true,
         ));
   }
-  final isLock = isDateTimeMoreThanNSecondsAgo(
-          authDetail.lastOnline, activeDurationInSec) ||
+  final isLock =
       isDateTimeMoreThanNSecondsAgo(authDetail.lastTouch, activeDurationInSec);
+
   if (isLock) {
     return _getRoute(
         AppRoute.passcode,

@@ -8,7 +8,7 @@ const highlightColor = Color(0xff9d959d);
 const greyColor = Color(0xfff8f8f8);
 const darkColor = Color(0xff000000);
 const primaryGradient = LinearGradient(
-  colors: const [
+  colors: [
     Color(0xff9cc0ff),
     Color(0xff97a6fe),
   ],

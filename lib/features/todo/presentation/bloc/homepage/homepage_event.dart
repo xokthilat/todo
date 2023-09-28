@@ -10,17 +10,11 @@ class FetchHomeData extends HomepageEvent {
 }
 
 class OnSubmitLastTouch extends HomepageEvent {
-  final DateTime lastTouch;
-  OnSubmitLastTouch({
-    required this.lastTouch,
-  });
+  OnSubmitLastTouch();
 }
 
 class OnSubmitLastOnline extends HomepageEvent {
-  final DateTime lastOnline;
-  OnSubmitLastOnline({
-    required this.lastOnline,
-  });
+  OnSubmitLastOnline();
 }
 
 class OnDeleteTodo extends HomepageEvent {
@@ -35,4 +29,8 @@ class OnPageChanged extends HomepageEvent {
   OnPageChanged({
     required this.pageStatus,
   });
+}
+
+class OnStartInactiveValidation extends HomepageEvent {
+  OnStartInactiveValidation();
 }

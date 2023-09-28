@@ -17,7 +17,6 @@ class ObjectboxService {
 
     initDB();
     if (kDebugMode) {
-      print(todos);
       print(authDetail);
     }
     return _store!;
@@ -58,18 +57,25 @@ class ObjectboxService {
     todoBox.removeAll();
   }
 
+  DateTime? onlineTime;
+  DateTime? touchTime;
   int setLastTouch(DateTime time) {
+    touchTime = time;
     final todoBox = _dataBase.box<AuthDao>();
     final auth = todoBox.getAll().first;
     auth.lastTouch = time;
-    return todoBox.put(auth);
+    final test = todoBox.put(auth);
+    return test;
   }
 
   int setLastOnline(DateTime time) {
+    onlineTime = time;
     final todoBox = _dataBase.box<AuthDao>();
     final auth = todoBox.getAll().first;
+
     auth.lastOnline = time;
-    return todoBox.put(auth);
+    final test = todoBox.put(auth);
+    return test;
   }
 
   int setPasscode(String passcode) {

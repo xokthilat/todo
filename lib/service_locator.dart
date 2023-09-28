@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:cross_connectivity/cross_connectivity.dart';
@@ -27,11 +28,16 @@ import 'features/todo/domain/usecases/get_todo_list.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
-  sl.registerFactory(
-      () => PasscodeBloc(checkPasscode: sl(), setPasscode: sl()));
+  sl.registerFactory(() => PasscodeBloc(
+        checkPasscode: sl(),
+        setPasscode: sl(),
+        setLastTouch: sl(),
+        setLastOnline: sl(),
+      ));
 
   sl.registerFactory(() => HomepageBloc(
       getTodoList: sl(),
+      getAuthDetail: sl(),
       deleteTodo: sl(),
       setLastOnline: sl(),
       setLastTouch: sl()));

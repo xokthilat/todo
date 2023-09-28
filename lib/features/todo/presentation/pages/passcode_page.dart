@@ -8,12 +8,14 @@ import 'package:passcode_screen/keyboard.dart';
 import 'package:passcode_screen/passcode_screen.dart';
 import 'package:todo/constants.dart';
 import 'package:todo/core/interface/response/todo_error.dart';
+import 'package:todo/core/router/app_route.dart';
+import 'package:todo/core/router/todo_navigator.dart';
 import 'package:todo/core/style/todo_textstyle.dart';
 import 'package:todo/service_locator.dart';
 
+import '../../../../core/state/todo_state.dart';
 import '../bloc/passcode/passcode_bloc.dart';
 import '../bloc/passcode/passcode_event.dart';
-import '../bloc/passcode/passcode_state.dart';
 
 class PasscodePage extends StatefulWidget {
   final bool isSetPasscode;
@@ -31,16 +33,18 @@ class _PasscodePageState extends State<PasscodePage> {
     return Scaffold(
       body: BlocProvider(
         create: (context) => sl<PasscodeBloc>(),
-        child: BlocConsumer<PasscodeBloc, PasscodeState>(
-          listener: (ctx, state) {
-            if (state.error != null) {
-              if (state.error is LocalRequestError) {
+        child: BlocConsumer<PasscodeBloc, TodoState<bool>>(
+          listener: (ctx, state) async {
+            if (state is TodoErrorState) {
+              if (state is LocalRequestError) {
                 Fluttertoast.showToast(
-                    msg: (state.error as LocalRequestError).errMsg!);
+                    msg: (state as LocalRequestError).errMsg!);
               } else {
                 Fluttertoast.showToast(
                     msg: "Something went wrong, please try again");
               }
+            } else if (state is TodoLoaded<bool>) {
+              sl<TodoNavigator>().navigateTo(AppRoute.home);
             }
           },
           builder: (ctx, state) {
