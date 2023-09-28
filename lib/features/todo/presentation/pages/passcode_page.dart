@@ -17,9 +17,11 @@ import '../../../../core/state/todo_state.dart';
 import '../bloc/passcode/passcode_bloc.dart';
 import '../bloc/passcode/passcode_event.dart';
 
+enum PasscodePageParams { set, check, change }
+
 class PasscodePage extends StatefulWidget {
-  final bool isSetPasscode;
-  const PasscodePage({super.key, required this.isSetPasscode});
+  final PasscodePageParams passcodePageParams;
+  const PasscodePage({super.key, required this.passcodePageParams});
 
   @override
   State<PasscodePage> createState() => _PasscodePageState();
@@ -30,57 +32,88 @@ class _PasscodePageState extends State<PasscodePage> {
       StreamController<bool>.broadcast();
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocProvider(
+    return BlocProvider(
         create: (context) => sl<PasscodeBloc>(),
-        child: BlocConsumer<PasscodeBloc, TodoState<bool>>(
-          listener: (ctx, state) async {
-            if (state is TodoErrorState) {
-              if (state is LocalRequestError) {
-                Fluttertoast.showToast(
-                    msg: (state as LocalRequestError).errMsg!);
-              } else {
-                Fluttertoast.showToast(
-                    msg: "Something went wrong, please try again");
-              }
-            } else if (state is TodoLoaded<bool>) {
-              sl<TodoNavigator>().navigateTo(AppRoute.home);
-            }
-          },
-          builder: (ctx, state) {
-            return PasscodeScreen(
-              title: widget.isSetPasscode
-                  ? "Set App Passcode".h2.highlightColor
-                  : 'Enter App Passcode'.h2.highlightColor,
-              passwordEnteredCallback: (code) {
-                if (widget.isSetPasscode) {
-                  BlocProvider.of<PasscodeBloc>(ctx)
-                      .add(PasscodeSet(passcode: code));
-                } else {
-                  BlocProvider.of<PasscodeBloc>(ctx)
-                      .add(PasscodeCheck(passcode: code));
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: primaryColor,
+            elevation: 0,
+            leading: sl<TodoNavigator>().navigatorKey.currentState!.canPop()
+                ? Builder(builder: (ctx) {
+                    return IconButton(
+                      icon: const Icon(
+                        Icons.arrow_back_ios,
+                        color: highlightColor,
+                      ),
+                      onPressed: () {
+                        BlocProvider.of<PasscodeBloc>(ctx)
+                            .add(OnLastTouchSet());
+                        sl<TodoNavigator>().popBack();
+                      },
+                    );
+                  })
+                : Container(),
+          ),
+          body: BlocProvider(
+            create: (context) => sl<PasscodeBloc>(),
+            child: BlocConsumer<PasscodeBloc, TodoState<bool>>(
+              listener: (ctx, state) async {
+                if (state is TodoErrorState) {
+                  if (state is LocalRequestError) {
+                    Fluttertoast.showToast(
+                        msg: (state as LocalRequestError).errMsg!);
+                  } else {
+                    Fluttertoast.showToast(
+                        msg: "Something went wrong, please try again");
+                  }
+                } else if (state is TodoLoaded<bool>) {
+                  sl<TodoNavigator>().navigateTo(AppRoute.home);
                 }
               },
-              circleUIConfig: const CircleUIConfig(
-                borderColor: secondaryColor,
-                fillColor: highlightColor,
-                circleSize: 30,
-              ),
-              keyboardUIConfig: const KeyboardUIConfig(
-                primaryColor: secondaryColor,
-                digitFillColor: secondaryColor,
-                digitTextStyle: TextStyle(
-                  color: highlightColor,
-                  fontSize: 50,
-                ),
-              ),
-              deleteButton: 'Delete'.p.highlightColor,
-              shouldTriggerVerification: _verificationNotifier.stream,
-              backgroundColor: primaryColor,
-            );
-          },
-        ),
-      ),
-    );
+              builder: (ctx, state) {
+                return PasscodeScreen(
+                  title: switch (widget.passcodePageParams) {
+                    PasscodePageParams.change =>
+                      "Change App Passcode".h2.highlightColor,
+                    PasscodePageParams.set =>
+                      "Set App Passcode".h2.highlightColor,
+                    PasscodePageParams.check =>
+                      'Enter App Passcode'.h2.highlightColor,
+                  },
+                  passwordEnteredCallback: (code) {
+                    switch (widget.passcodePageParams) {
+                      case PasscodePageParams.set:
+                        BlocProvider.of<PasscodeBloc>(ctx)
+                            .add(PasscodeSet(passcode: code));
+                        return;
+                      case PasscodePageParams.check:
+                        BlocProvider.of<PasscodeBloc>(ctx)
+                            .add(PasscodeCheck(passcode: code));
+                      case PasscodePageParams.change:
+                        BlocProvider.of<PasscodeBloc>(ctx)
+                            .add(PasscodeChanged(passcode: code));
+                    }
+                  },
+                  circleUIConfig: const CircleUIConfig(
+                    borderColor: secondaryColor,
+                    fillColor: highlightColor,
+                    circleSize: 30,
+                  ),
+                  keyboardUIConfig: const KeyboardUIConfig(
+                    primaryColor: secondaryColor,
+                    digitFillColor: secondaryColor,
+                    digitTextStyle: TextStyle(
+                      color: highlightColor,
+                      fontSize: 50,
+                    ),
+                  ),
+                  deleteButton: 'Delete'.p.highlightColor,
+                  shouldTriggerVerification: _verificationNotifier.stream,
+                  backgroundColor: primaryColor,
+                );
+              },
+            ),
+          ),
+        ));
   }
 }

@@ -45,5 +45,14 @@ class PasscodeBloc extends Bloc<PasscodeEvent, TodoState<bool>> {
         emit(TodoErrorState(e));
       });
     });
+
+    on<OnLastTouchSet>((event, emit) async {
+      final res = await setLastTouch(DateTime.now());
+      res.when(
+          success: (data) {},
+          failure: (e) {
+            emit(TodoErrorState(e));
+          });
+    });
   }
 }

@@ -34,3 +34,7 @@ class OnPageChanged extends HomepageEvent {
 class OnStartInactiveValidation extends HomepageEvent {
   OnStartInactiveValidation();
 }
+
+class OnStopInactiveValidation extends HomepageEvent {
+  OnStopInactiveValidation();
+}

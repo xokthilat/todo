@@ -20,7 +20,7 @@ Route generateRoute(RouteSettings settings) {
     return _getRoute(
         AppRoute.passcode,
         const PasscodePage(
-          isSetPasscode: true,
+          passcodePageParams: PasscodePageParams.set,
         ));
   }
   final isLock =
@@ -30,7 +30,7 @@ Route generateRoute(RouteSettings settings) {
     return _getRoute(
         AppRoute.passcode,
         const PasscodePage(
-          isSetPasscode: false,
+          passcodePageParams: PasscodePageParams.check,
         ));
   }
 
@@ -41,7 +41,7 @@ Route generateRoute(RouteSettings settings) {
       return _getRoute(
           settings.name!,
           PasscodePage(
-            isSetPasscode: settings.arguments as bool,
+            passcodePageParams: settings.arguments as PasscodePageParams,
           ));
     default:
       return _getRoute(settings.name!, const Homepage());

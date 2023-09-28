@@ -11,6 +11,7 @@ import 'package:todo/features/todo/domain/usecases/set_last_online.dart';
 import 'package:todo/features/todo/domain/usecases/set_last_touch.dart';
 import 'package:todo/features/todo/presentation/bloc/homepage/homepage_event.dart';
 import 'package:todo/features/todo/presentation/bloc/homepage/homepage_state.dart';
+import 'package:todo/features/todo/presentation/pages/passcode_page.dart';
 import 'package:todo/service_locator.dart';
 
 import '../../../../../constants.dart';
@@ -54,6 +55,10 @@ class HomepageBloc extends Bloc<HomepageEvent, TodoState<HomepageState>> {
 
     on<OnStartInactiveValidation>(_onStartInactiveValidation);
 
+    on<OnStopInactiveValidation>((event, emit) async {
+      _timer?.cancel();
+    });
+
     on<OnDeleteTodo>((event, emit) async {
       final res = await deleteTodo(event.id);
       res.when(success: (data) {
@@ -87,6 +92,7 @@ class HomepageBloc extends Bloc<HomepageEvent, TodoState<HomepageState>> {
   FutureOr<void> _onStartInactiveValidation(OnStartInactiveValidation event,
       Emitter<TodoState<HomepageState>> emit) async {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
+      print(timer.tick);
       final res = await setLastOnline(DateTime.now());
       res.when(success: (data) async {
         final res = await getAuthDetail(NoParams());
@@ -96,8 +102,8 @@ class HomepageBloc extends Bloc<HomepageEvent, TodoState<HomepageState>> {
                 auth.lastTouch, activeDurationInSec);
             if (isLock) {
               timer.cancel();
-              sl<TodoNavigator>()
-                  .navigateReplace(AppRoute.passcode, params: false);
+              sl<TodoNavigator>().navigateAndRemoveTo(AppRoute.passcode,
+                  params: PasscodePageParams.check);
             }
           }
         }, failure: (e) {

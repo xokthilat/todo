@@ -17,3 +17,7 @@ class PasscodeSet extends PasscodeEvent {
 
   PasscodeSet({required this.passcode});
 }
+
+class OnLastTouchSet extends PasscodeEvent {
+  OnLastTouchSet();
+}

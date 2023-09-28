@@ -10,9 +10,11 @@ import 'package:todo/features/todo/presentation/bloc/homepage/homepage_bloc.dart
 import 'package:todo/features/todo/presentation/bloc/homepage/homepage_event.dart';
 import 'package:todo/service_locator.dart';
 import 'package:intl/intl.dart';
+import '../../../../core/router/app_route.dart';
 import '../../../../core/state/todo_state.dart';
 import '../bloc/homepage/homepage_state.dart';
 import '../widgets/chip_tab.dart';
+import 'passcode_page.dart';
 
 String formatRelativeDate(DateTime date) {
   final now = DateTime.now();
@@ -67,7 +69,34 @@ class Homepage extends StatelessWidget {
                               const SizedBox(
                                 height: 100,
                               ),
-                              "Lorem Ipsum".h1.highlightColor,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  "Lorem Ipsum".h1.highlightColor,
+                                  Builder(builder: (ctx) {
+                                    return InkWell(
+                                      onTap: () {
+                                        BlocProvider.of<HomepageBloc>(ctx)
+                                            .add(OnStopInactiveValidation());
+                                        sl<TodoNavigator>()
+                                            .navigateTo(AppRoute.passcode,
+                                                params:
+                                                    PasscodePageParams.change)
+                                            .then((_) {
+                                          BlocProvider.of<HomepageBloc>(ctx)
+                                              .add(OnStartInactiveValidation());
+                                        });
+                                      },
+                                      child: const Icon(
+                                        Icons.settings,
+                                        color: Colors.grey,
+                                        size: 20,
+                                      ),
+                                    );
+                                  })
+                                ],
+                              ),
                               "Lorem ipsum sit amet.".pBold.highlightColor,
                               "consectetur adipiscing elit, tempor."
                                   .pBold
