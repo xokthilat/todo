@@ -185,6 +185,15 @@ class Homepage extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 30.0),
                   child: BlocBuilder<HomepageBloc, TodoState<HomepageState>>(
                     builder: (context, state) {
+                      ScrollController scrollController = ScrollController();
+
+                      scrollController.addListener(() {
+                        if (scrollController.position.pixels ==
+                            scrollController.position.maxScrollExtent) {
+                          BlocProvider.of<HomepageBloc>(context)
+                              .add(FetchHomeData(pageStatus: PageStatus.todo));
+                        }
+                      });
                       switch (state) {
                         case TodoLoading<HomepageState>():
                           return "Loading".pBold.highlightColor;
@@ -194,6 +203,7 @@ class Homepage extends StatelessWidget {
                           }
 
                           return SingleChildScrollView(
+                            controller: scrollController,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: List.generate(
