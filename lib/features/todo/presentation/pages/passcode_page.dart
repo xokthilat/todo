@@ -67,7 +67,12 @@ class _PasscodePageState extends State<PasscodePage> {
                         msg: "Something went wrong, please try again");
                   }
                 } else if (state is TodoLoaded<bool>) {
-                  sl<TodoNavigator>().navigateTo(AppRoute.home);
+                  if (state.data) {
+                    sl<TodoNavigator>().navigateTo(AppRoute.home);
+                  } else {
+                    Fluttertoast.showToast(
+                        msg: "Wrong passcode, please try again");
+                  }
                 }
               },
               builder: (ctx, state) {

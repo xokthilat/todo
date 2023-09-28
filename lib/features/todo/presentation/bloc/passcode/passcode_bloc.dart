@@ -32,7 +32,7 @@ class PasscodeBloc extends Bloc<PasscodeEvent, TodoState<bool>> {
 
       final res = await checkPasscode(event.passcode);
       res.when(success: (isPass) {
-        emit(const TodoLoaded(true));
+        emit(TodoLoaded(isPass));
       }, failure: (e) {
         emit(TodoErrorState(e));
       });
