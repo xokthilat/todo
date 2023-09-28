@@ -201,7 +201,6 @@ class Homepage extends StatelessWidget {
                           if (data.todos.isEmpty) {
                             return "No data".pBold.highlightColor;
                           }
-
                           return SingleChildScrollView(
                             controller: scrollController,
                             child: Column(
@@ -260,9 +259,40 @@ class TodoByDay extends StatelessWidget {
         ),
         ...List.generate(
             todos.length,
-            (index) => Padding(
-                  padding: const EdgeInsets.only(bottom: 15.0),
-                  child: TodoWidget(todo: todos[index]),
+            (index) => Dismissible(
+                  background: Container(
+                    color: Colors.red,
+                    padding: const EdgeInsets.only(left: 20.0),
+                    child: const Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Icon(
+                          Icons.delete,
+                          color: Colors.white,
+                          size: 40,
+                        ),
+                        SizedBox(
+                          width: 40,
+                        )
+                      ],
+                    ),
+                  ),
+                  key: Key(todos[index].id),
+                  // Provide a function that tells the app
+                  // what to do after an item has been swiped away.
+                  onDismissed: (direction) {
+                    // Remove the item from the data source.
+                    BlocProvider.of<HomepageBloc>(context).add(OnDeleteTodo(
+                      id: todos[index].id,
+                    ));
+                    // Then show a snackbar.
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: Text('${todos[index].title} dismissed')));
+                  },
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 15.0),
+                    child: TodoWidget(todo: todos[index]),
+                  ),
                 ))
       ],
     );
