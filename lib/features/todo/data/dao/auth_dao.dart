@@ -1,6 +1,7 @@
+import 'package:objectbox/objectbox.dart';
+
 import 'package:todo/features/todo/domain/entities/auth.dart';
 import 'package:todo/objectbox.g.dart';
-import 'package:objectbox/objectbox.dart';
 
 @Entity()
 class AuthDao implements Auth {
@@ -21,4 +22,9 @@ class AuthDao implements Auth {
       required this.lastTouch,
       required this.lastOnline,
       required this.passcode});
+
+  @override
+  String toString() {
+    return 'AuthDao(id: $id, lastTouch: $lastTouch, lastOnline: $lastOnline, passcode: $passcode)';
+  }
 }

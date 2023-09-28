@@ -41,14 +41,15 @@ class ObjectboxService {
   void saveTodos(List<Todo> todos) {
     final todoBox = _dataBase.box<TodoDao>();
 
-    final todosDao = todos
-        .map((e) => TodoDao(
-              createdAt: e.createdAt,
-              description: e.description,
-              id: e.id,
-              title: e.title,
-            ))
-        .toList();
+    final todosDao = todos.map((e) {
+      final todo = TodoDao(
+        createdAt: e.createdAt,
+        description: e.description,
+        id: e.id,
+        title: e.title,
+      )..dbStatus = e.status.index;
+      return todo;
+    }).toList();
     todoBox.putMany(todosDao);
   }
 

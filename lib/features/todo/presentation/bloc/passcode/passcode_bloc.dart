@@ -1,8 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/features/todo/domain/usecases/check_passcode.dart';
 import 'package:todo/features/todo/domain/usecases/set_passcode.dart';
-import 'package:todo/features/todo/presentation/bloc/passcode_event.dart';
-import 'package:todo/features/todo/presentation/bloc/passcode_state.dart';
+import 'package:todo/features/todo/presentation/bloc/passcode/passcode_event.dart';
+import 'package:todo/features/todo/presentation/bloc/passcode/passcode_state.dart';
 
 class PasscodeBloc extends Bloc<PasscodeEvent, PasscodeState> {
   final CheckPasscode checkPasscode;

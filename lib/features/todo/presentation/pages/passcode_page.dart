@@ -9,11 +9,11 @@ import 'package:passcode_screen/passcode_screen.dart';
 import 'package:todo/constants.dart';
 import 'package:todo/core/interface/response/todo_error.dart';
 import 'package:todo/core/style/todo_textstyle.dart';
-import 'package:todo/features/todo/presentation/bloc/passcode_bloc.dart';
 import 'package:todo/service_locator.dart';
 
-import '../bloc/passcode_event.dart';
-import '../bloc/passcode_state.dart';
+import '../bloc/passcode/passcode_bloc.dart';
+import '../bloc/passcode/passcode_event.dart';
+import '../bloc/passcode/passcode_state.dart';
 
 class PasscodePage extends StatefulWidget {
   final bool isSetPasscode;
@@ -36,7 +36,7 @@ class _PasscodePageState extends State<PasscodePage> {
             if (state.error != null) {
               if (state.error is LocalRequestError) {
                 Fluttertoast.showToast(
-                    msg: (state.error as LocalRequestError).error!);
+                    msg: (state.error as LocalRequestError).errMsg!);
               } else {
                 Fluttertoast.showToast(
                     msg: "Something went wrong, please try again");

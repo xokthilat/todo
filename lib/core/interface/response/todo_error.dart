@@ -1,28 +1,30 @@
 import 'package:dio/dio.dart';
 
-sealed class TodoError implements Exception {}
+sealed class TodoError implements Exception {
+  final String? errMsg;
+
+  TodoError({required this.errMsg});
+
+  String get message => "Error : $errMsg";
+}
 
 class RequestError extends TodoError {
   final DioException error;
-  RequestError({required this.error});
+  RequestError({required this.error, String? errMsg}) : super(errMsg: errMsg);
 }
 
 class DecodingError extends TodoError {
-  final String? error;
-  DecodingError({required this.error});
+  DecodingError({required String errMsg}) : super(errMsg: errMsg);
 }
 
 class ConnectivityError extends TodoError {
-  final String? error;
-  ConnectivityError({required this.error});
+  ConnectivityError({required String errMsg}) : super(errMsg: errMsg);
 }
 
 class UnknownError extends TodoError {
-  final String? error;
-  UnknownError({required this.error});
+  UnknownError({required String errMsg}) : super(errMsg: errMsg);
 }
 
 class LocalRequestError extends TodoError {
-  final String? error;
-  LocalRequestError({required this.error});
+  LocalRequestError({required String errMsg}) : super(errMsg: errMsg);
 }

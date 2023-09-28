@@ -5,9 +5,9 @@ import '../../../../core/interface/response/todo_error.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../repositories/todo_repository.dart';
 
-class GetAuthDetail implements UseCase<List<Todo>, TodoStatus> {
+class GetTodoList implements UseCase<List<Todo>, TodoStatus> {
   final TodoRepository todoRepository;
-  GetAuthDetail(this.todoRepository);
+  GetTodoList(this.todoRepository);
   @override
   Future<Result<List<Todo>, TodoError>> call(TodoStatus params) async {
     return todoRepository.getTodoList(params);

@@ -16,7 +16,7 @@ class TodoDao implements Todo {
   @override
   late final String description;
 
-  @Index()
+  @Unique(onConflict: ConflictStrategy.replace)
   @override
   late final String id;
 
@@ -38,11 +38,6 @@ class TodoDao implements Todo {
       status = TodoStatus.UNKNOWN;
     } else {
       status = TodoStatus.values[value]; // throws a RangeError if not found
-
-      // or if you want to handle unknown values gracefully:
-      status = value >= 0 && value < TodoStatus.values.length
-          ? TodoStatus.values[value]
-          : TodoStatus.UNKNOWN;
     }
   }
 
@@ -59,4 +54,9 @@ class TodoDao implements Todo {
     required this.id,
     required this.title,
   });
+
+  @override
+  String toString() {
+    return 'TodoDao(id: $id, status: $status, title: $title)';
+  }
 }

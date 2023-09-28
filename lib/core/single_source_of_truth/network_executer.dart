@@ -21,6 +21,7 @@ class NetworkExecuter {
       required this.networkCreator,
       required this.networkDecoder,
       required this.debugMode});
+  //T is model type K is response type
   Future<Result<K, TodoError>> execute<T extends BaseNetworkModel, K>(
       {required BaseClientGenerator route,
       required T responseType,
@@ -54,17 +55,17 @@ class NetworkExecuter {
         // TYPE ERROR
       } on TypeError catch (e) {
         if (debugMode) {
-          print("$route => ${DecodingError(error: e.toString())}");
+          print("$route => ${DecodingError(errMsg: e.toString())}");
         }
-        return Result.failure(DecodingError(error: e.toString()));
+        return Result.failure(DecodingError(errMsg: e.toString()));
       }
 
       // No Internet Connection
     } else {
       if (debugMode) {
-        print(ConnectivityError(error: 'No Internet Connection'));
+        print(ConnectivityError(errMsg: 'No Internet Connection'));
       }
     }
-    return Result.failure(ConnectivityError(error: 'No Internet Connection'));
+    return Result.failure(ConnectivityError(errMsg: 'No Internet Connection'));
   }
 }

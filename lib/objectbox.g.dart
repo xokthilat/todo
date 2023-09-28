@@ -45,7 +45,7 @@ final _entities = <ModelEntity>[
             id: const IdUid(4, 6164288061332199586),
             name: 'id',
             type: 9,
-            flags: 2048,
+            flags: 34848,
             indexId: const IdUid(1, 5876809906245186319)),
         ModelProperty(
             id: const IdUid(5, 1380453343063012863),

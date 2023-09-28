@@ -19,7 +19,10 @@ import 'package:todo/features/todo/domain/usecases/get_auth_detail.dart';
 import 'package:todo/features/todo/domain/usecases/set_last_online.dart';
 import 'package:todo/features/todo/domain/usecases/set_last_touch.dart';
 import 'package:todo/features/todo/domain/usecases/set_passcode.dart';
-import 'package:todo/features/todo/presentation/bloc/passcode_bloc.dart';
+import 'package:todo/features/todo/presentation/bloc/homepage/homepage_bloc.dart';
+import 'package:todo/features/todo/presentation/bloc/passcode/passcode_bloc.dart';
+
+import 'features/todo/domain/usecases/get_todo_list.dart';
 
 final sl = GetIt.instance;
 
@@ -27,7 +30,14 @@ Future<void> init() async {
   sl.registerFactory(
       () => PasscodeBloc(checkPasscode: sl(), setPasscode: sl()));
 
+  sl.registerFactory(() => HomepageBloc(
+      getTodoList: sl(),
+      deleteTodo: sl(),
+      setLastOnline: sl(),
+      setLastTouch: sl()));
+
   sl.registerLazySingleton(() => CheckPasscode(sl()));
+  sl.registerLazySingleton(() => GetTodoList(sl()));
   sl.registerLazySingleton(() => DeleteTodo(sl()));
   sl.registerLazySingleton(() => GetAuthDetail(sl()));
   sl.registerLazySingleton(() => SetLastOnline(sl()));
