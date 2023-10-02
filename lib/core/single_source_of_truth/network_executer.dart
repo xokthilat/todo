@@ -27,8 +27,6 @@ class NetworkExecuter {
       required T responseType,
       dynamic mockData,
       NetworkOptions? options}) async {
-    if (debugMode) print(route.header);
-
     // Check Network Connectivity
     if (await networkConnectivity.status) {
       try {

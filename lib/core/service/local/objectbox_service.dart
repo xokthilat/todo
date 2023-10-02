@@ -31,10 +31,10 @@ class ObjectboxService {
     return todoBox.getAll();
   }
 
-  void delteTodos(String id) {
+  bool deleteTodo(String id) {
     final todoBox = _dataBase.box<TodoDao>();
     final selectedTodo = todos.where((todo) => id == todo.id).first;
-    todoBox.remove(selectedTodo.localId);
+    return todoBox.remove(selectedTodo.localId);
   }
 
   void saveTodos(List<Todo> todos) {

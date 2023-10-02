@@ -187,13 +187,6 @@ class Homepage extends StatelessWidget {
                     builder: (context, state) {
                       ScrollController scrollController = ScrollController();
 
-                      scrollController.addListener(() {
-                        if (scrollController.position.pixels ==
-                            scrollController.position.maxScrollExtent) {
-                          BlocProvider.of<HomepageBloc>(context)
-                              .add(FetchHomeData(pageStatus: PageStatus.todo));
-                        }
-                      });
                       switch (state) {
                         case TodoLoading<HomepageState>():
                           return "Loading".pBold.highlightColor;
@@ -201,27 +194,50 @@ class Homepage extends StatelessWidget {
                           if (data.todos.isEmpty) {
                             return "No data".pBold.highlightColor;
                           }
+
+                          scrollController.addListener(() {
+                            if (scrollController.position.pixels ==
+                                scrollController.position.maxScrollExtent) {
+                              BlocProvider.of<HomepageBloc>(context).add(
+                                  FetchHomeData(
+                                      pageStatus: state.data.pageStatus));
+                            }
+                          });
                           return SingleChildScrollView(
                             controller: scrollController,
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: List.generate(
-                                  data.todos.groupByDate.keys.length, (index) {
-                                final groupedByDate = data.todos.groupByDate;
-                                return Column(
-                                  children: [
-                                    TodoByDay(
-                                      todos:
-                                          groupedByDate.values.toList()[index],
-                                      title: formatRelativeDate(DateTime.parse(
-                                          groupedByDate.keys.toList()[index])),
-                                    ),
-                                    const SizedBox(
-                                      height: 10,
-                                    ),
-                                  ],
-                                );
-                              }),
+                              children: [
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: List.generate(
+                                      data.todos.groupByDate.keys.length,
+                                      (index) {
+                                    final groupedByDate =
+                                        data.todos.groupByDate;
+
+                                    return Column(
+                                      children: [
+                                        TodoByDay(
+                                          todos: groupedByDate.values
+                                              .toList()[index],
+                                          title: formatRelativeDate(
+                                              DateTime.parse(groupedByDate.keys
+                                                  .toList()[index])),
+                                        ),
+                                        const SizedBox(
+                                          height: 10,
+                                        ),
+                                      ],
+                                    );
+                                  }),
+                                ),
+                                Visibility(
+                                  visible: !data.isFinalPage,
+                                  child: const Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                ),
+                              ],
                             ),
                           );
                         case TodoErrorState<HomepageState>(error: var err):
@@ -278,14 +294,10 @@ class TodoByDay extends StatelessWidget {
                     ),
                   ),
                   key: Key(todos[index].id),
-                  // Provide a function that tells the app
-                  // what to do after an item has been swiped away.
                   onDismissed: (direction) {
-                    // Remove the item from the data source.
                     BlocProvider.of<HomepageBloc>(context).add(OnDeleteTodo(
                       id: todos[index].id,
                     ));
-                    // Then show a snackbar.
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         content: Text('${todos[index].title} dismissed')));
                   },

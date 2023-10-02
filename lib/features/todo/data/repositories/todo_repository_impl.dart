@@ -10,6 +10,7 @@ import 'package:todo/features/todo/domain/repositories/todo_repository.dart';
 
 import '../../../../core/entities/todo_response.dart';
 import '../../../../core/single_source_of_truth/network_executer.dart';
+import '../../domain/usecases/get_todo_list.dart';
 
 class TodoRepositoryImpl implements TodoRepository {
   final NetworkExecuter networkExecuter;
@@ -20,15 +21,34 @@ class TodoRepositoryImpl implements TodoRepository {
     required this.objectboxService,
     required this.networkConnectivity,
   });
-  int offset = 0;
+  int offsetTodo = 0;
+  int offsetDoing = 0;
+  int offsetDone = 0;
   int limit = 10;
   String sortBy = "createdAt";
   bool isAsc = true;
+  // bool isFinalPage = false;
+  bool isFirstTime = true;
 
   @override
-  Future<Result<List<Todo>, TodoError>> getTodoList(TodoStatus status) async {
+  Future<Result<GetTodoListRes, TodoError>> getTodoList(
+      TodoStatus status) async {
     try {
       if (await networkConnectivity.status) {
+        int offset = 0;
+        switch (status) {
+          case TodoStatus.TODO:
+            offset = offsetTodo;
+            break;
+          case TodoStatus.DOING:
+            offset = offsetDoing;
+            break;
+          case TodoStatus.DONE:
+            offset = offsetDone;
+            break;
+          default:
+            offset = offsetTodo;
+        }
         var result =
             await networkExecuter.execute<TodoResponseModel, TodoResponse>(
           route: ApiHolder.fetchTodoList(
@@ -39,17 +59,45 @@ class TodoRepositoryImpl implements TodoRepository {
               isAsc: isAsc),
           responseType: TodoResponseModel(),
         );
-        offset += limit;
+
         return result.when(success: (data) {
+          if (data.tasks.isNotEmpty) {
+            switch (status) {
+              case TodoStatus.TODO:
+                offsetTodo++;
+                break;
+              case TodoStatus.DOING:
+                offsetDoing++;
+                break;
+              case TodoStatus.DONE:
+                offsetDone++;
+                break;
+              default:
+                offsetTodo++;
+            }
+          }
+
+          //clean all local data when first request for sync data between local and server
+          if (isFirstTime) {
+            objectboxService.deleteTodos();
+            isFirstTime = false;
+          }
+
           objectboxService.saveTodos(data.tasks);
-          return Result.success(objectboxService.todos
+          final todos = objectboxService.todos
               .where((todo) => todo.status == status)
-              .toList());
+              .toList();
+          if (isAsc) {
+            todos.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+          }
+          return Result.success(GetTodoListRes(
+              isFinalPage: data.pageNumber == data.totalPages, todos: todos));
         }, failure: (TodoError error) {
           return Result.failure(error);
         });
       } else {
-        return Result.success(objectboxService.todos);
+        return Result.success(
+            GetTodoListRes(isFinalPage: true, todos: objectboxService.todos));
       }
     } on TodoError catch (e) {
       return Result.failure(e);
@@ -59,10 +107,9 @@ class TodoRepositoryImpl implements TodoRepository {
   }
 
   @override
-  Result<List<Todo>, TodoError> deleteTodoList(String id) {
+  Result<bool, TodoError> deleteTodoList(String id) {
     try {
-      objectboxService.delteTodos(id);
-      return Result.success(objectboxService.todos);
+      return Result.success(objectboxService.deleteTodo(id));
     } catch (e) {
       return Result.failure(LocalRequestError(errMsg: e.toString()));
     }

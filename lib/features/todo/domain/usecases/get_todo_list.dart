@@ -5,11 +5,19 @@ import '../../../../core/interface/response/todo_error.dart';
 import '../../../../core/usecases/usecase.dart';
 import '../repositories/todo_repository.dart';
 
-class GetTodoList implements UseCase<List<Todo>, TodoStatus> {
+class GetTodoList implements UseCase<GetTodoListRes, TodoStatus> {
   final TodoRepository todoRepository;
   GetTodoList(this.todoRepository);
   @override
-  Future<Result<List<Todo>, TodoError>> call(TodoStatus params) async {
+  Future<Result<GetTodoListRes, TodoError>> call(TodoStatus params) async {
     return todoRepository.getTodoList(params);
   }
+}
+
+// we declare a new class to return multiple data here becase it must only use by getTodoList usecase
+class GetTodoListRes {
+  final bool isFinalPage;
+  final List<Todo> todos;
+
+  GetTodoListRes({required this.isFinalPage, required this.todos});
 }

@@ -35,8 +35,11 @@ class HomepageBloc extends Bloc<HomepageEvent, TodoState<HomepageState>> {
     on<FetchHomeData>((event, emit) async {
       final res = await getTodoList(event.pageStatus.todoStatus);
       res.when(success: (data) {
-        emit(TodoLoaded<HomepageState>(
-            HomepageState(todos: data, pageStatus: event.pageStatus)));
+        emit(TodoLoaded<HomepageState>(HomepageState(
+          todos: data.todos,
+          pageStatus: event.pageStatus,
+          isFinalPage: data.isFinalPage,
+        )));
       }, failure: (e) {
         emit(TodoErrorState<HomepageState>(e));
       });
@@ -59,11 +62,21 @@ class HomepageBloc extends Bloc<HomepageEvent, TodoState<HomepageState>> {
       _timer?.cancel();
     });
 
+    // on<OnFetchMore>((event, emit) async {
+    //   final res = await getTodoList(event.pageStatus.todoStatus);
+    //   res.when(success: (data) {
+    //     emit(TodoLoaded<HomepageState>(
+    //         (state as TodoLoaded<HomepageState>).data.copyWith(todos: data)));
+    //   }, failure: (e) {
+    //     emit(TodoErrorState<HomepageState>(e));
+    //   });
+    // });
+
     on<OnDeleteTodo>((event, emit) async {
       final res = await deleteTodo(event.id);
       res.when(success: (data) {
-        emit(TodoLoaded<HomepageState>(
-            (state as TodoLoaded<HomepageState>).data.copyWith(todos: data)));
+        add(FetchHomeData(
+            pageStatus: (state as TodoLoaded<HomepageState>).data.pageStatus));
       }, failure: (e) {
         emit(TodoErrorState<HomepageState>(e));
       });
@@ -92,7 +105,6 @@ class HomepageBloc extends Bloc<HomepageEvent, TodoState<HomepageState>> {
   FutureOr<void> _onStartInactiveValidation(OnStartInactiveValidation event,
       Emitter<TodoState<HomepageState>> emit) async {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
-      print(timer.tick);
       final res = await setLastOnline(DateTime.now());
       res.when(success: (data) async {
         final res = await getAuthDetail(NoParams());
