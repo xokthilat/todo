@@ -1,4 +1,4 @@
-import 'homepage_state.dart';
+part of 'homepage_bloc.dart';
 
 class HomepageEvent {}
 
@@ -37,10 +37,4 @@ class OnStartInactiveValidation extends HomepageEvent {
 
 class OnStopInactiveValidation extends HomepageEvent {
   OnStopInactiveValidation();
-}
-
-class OnFetchMore extends HomepageEvent {
-  final PageStatus pageStatus;
-
-  OnFetchMore({required this.pageStatus});
 }

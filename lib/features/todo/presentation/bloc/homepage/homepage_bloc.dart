@@ -9,15 +9,16 @@ import 'package:todo/features/todo/domain/usecases/delete_todo.dart';
 import 'package:todo/features/todo/domain/usecases/get_auth_detail.dart';
 import 'package:todo/features/todo/domain/usecases/set_last_online.dart';
 import 'package:todo/features/todo/domain/usecases/set_last_touch.dart';
-import 'package:todo/features/todo/presentation/bloc/homepage/homepage_event.dart';
-import 'package:todo/features/todo/presentation/bloc/homepage/homepage_state.dart';
 import 'package:todo/features/todo/presentation/pages/passcode_page.dart';
 import 'package:todo/service_locator.dart';
 
 import '../../../../../constants.dart';
 import '../../../../../core/router/router.dart';
 import '../../../../../core/usecases/usecase.dart';
+import '../../../domain/entities/todo.dart';
 import '../../../domain/usecases/get_todo_list.dart';
+part 'homepage_state.dart';
+part 'homepage_event.dart';
 
 class HomepageBloc extends Bloc<HomepageEvent, TodoState<HomepageState>> {
   final GetTodoList getTodoList;
@@ -61,16 +62,6 @@ class HomepageBloc extends Bloc<HomepageEvent, TodoState<HomepageState>> {
     on<OnStopInactiveValidation>((event, emit) async {
       _timer?.cancel();
     });
-
-    // on<OnFetchMore>((event, emit) async {
-    //   final res = await getTodoList(event.pageStatus.todoStatus);
-    //   res.when(success: (data) {
-    //     emit(TodoLoaded<HomepageState>(
-    //         (state as TodoLoaded<HomepageState>).data.copyWith(todos: data)));
-    //   }, failure: (e) {
-    //     emit(TodoErrorState<HomepageState>(e));
-    //   });
-    // });
 
     on<OnDeleteTodo>((event, emit) async {
       final res = await deleteTodo(event.id);

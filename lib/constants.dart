@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 const baseUrl = "https://todo-list-api-mfchjooefq-as.a.run.app/";
 const activeDurationInSec = 10;
@@ -19,3 +20,19 @@ const primaryGradient = LinearGradient(
   begin: Alignment.centerLeft,
   end: Alignment.centerRight,
 );
+String formatRelativeDate(DateTime date) {
+  final now = DateTime.now();
+  final difference = date.difference(now).inDays;
+  final isYesterday = (difference <= 1 && difference >= -1) &&
+          (date.day == DateTime.now().subtract(const Duration(days: 1)).day)
+      ? true
+      : false;
+  final isTomorrow = (difference <= 1 && difference >= -1) &&
+          (date.day == DateTime.now().add(const Duration(days: 1)).day)
+      ? true
+      : false;
+  if (isYesterday) return "Yesterday";
+  if (isTomorrow) return "Tomorrow";
+  final dateFormat = DateFormat('MMMM d, y');
+  return dateFormat.format(date);
+}

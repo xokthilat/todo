@@ -1,4 +1,4 @@
-import 'package:todo/features/todo/domain/entities/todo.dart';
+part of 'homepage_bloc.dart';
 
 class HomepageState {
   final List<Todo> todos;
