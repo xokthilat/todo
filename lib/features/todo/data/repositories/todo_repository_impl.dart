@@ -35,9 +35,6 @@ class TodoRepositoryImpl implements TodoRepository {
             pageNumber: 1,
             totalPages: 1));
       }
-      //make clean print of all param data
-      print('status: ${param.status}');
-      print('offset: ${param.offset}');
       if (await networkConnectivity.status) {
         var result =
             await networkExecuter.execute<TodoResponseModel, TodoResponse>(

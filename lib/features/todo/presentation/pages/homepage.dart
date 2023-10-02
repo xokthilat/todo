@@ -5,8 +5,32 @@ import 'package:todo/service_locator.dart';
 import '../widgets/home_header.dart';
 import '../widgets/todo_listview.dart';
 
-class Homepage extends StatelessWidget {
+class Homepage extends StatefulWidget {
   const Homepage({super.key});
+
+  @override
+  State<Homepage> createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> with WidgetsBindingObserver {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.inactive) {
+      sl<HomepageBloc>().add(OnSubmitLastTouch());
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
