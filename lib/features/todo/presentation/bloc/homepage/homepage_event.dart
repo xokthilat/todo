@@ -4,8 +4,10 @@ class HomepageEvent {}
 
 class FetchHomeData extends HomepageEvent {
   final PageStatus pageStatus;
+  final bool fetchLocalOnly;
   FetchHomeData({
     required this.pageStatus,
+    this.fetchLocalOnly = false,
   });
 }
 
@@ -37,4 +39,11 @@ class OnStartInactiveValidation extends HomepageEvent {
 
 class OnStopInactiveValidation extends HomepageEvent {
   OnStopInactiveValidation();
+}
+
+class OnFetchMore extends HomepageEvent {
+  final PageStatus pageStatus;
+  OnFetchMore({
+    required this.pageStatus,
+  });
 }

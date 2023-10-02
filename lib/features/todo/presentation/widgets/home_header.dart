@@ -102,7 +102,7 @@ class HomeHeader extends StatelessWidget {
                                 text: "To-Do",
                                 onTap: () =>
                                     BlocProvider.of<HomepageBloc>(context).add(
-                                        FetchHomeData(
+                                        OnPageChanged(
                                             pageStatus: PageStatus.todo)),
                               ),
                             ),
@@ -113,7 +113,7 @@ class HomeHeader extends StatelessWidget {
                                 text: "Doing",
                                 onTap: () =>
                                     BlocProvider.of<HomepageBloc>(context).add(
-                                        FetchHomeData(
+                                        OnPageChanged(
                                             pageStatus: PageStatus.doing)),
                               ),
                             ),
@@ -124,7 +124,7 @@ class HomeHeader extends StatelessWidget {
                                 text: "Done",
                                 onTap: () =>
                                     BlocProvider.of<HomepageBloc>(context).add(
-                                        FetchHomeData(
+                                        OnPageChanged(
                                             pageStatus: PageStatus.done)),
                               ),
                             ),

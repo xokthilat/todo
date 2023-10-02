@@ -2,7 +2,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:todo/core/interface/api_client/base_client_generator.dart';
 import 'package:todo/features/todo/domain/entities/todo.dart';
-import '../../constants.dart';
+
+import '../../api_config.dart';
 part 'api_holder.freezed.dart';
 
 @freezed

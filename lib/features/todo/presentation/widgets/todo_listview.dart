@@ -29,11 +29,12 @@ class TodoListView extends StatelessWidget {
                 return "No data".pBold.highlightColor;
               }
 
+              // add -50 becase we want to make it load before the end of the list
               scrollController.addListener(() {
-                if (scrollController.position.pixels ==
-                    scrollController.position.maxScrollExtent) {
+                if (scrollController.position.pixels >
+                    (scrollController.position.maxScrollExtent - 50)) {
                   BlocProvider.of<HomepageBloc>(context)
-                      .add(FetchHomeData(pageStatus: state.data.pageStatus));
+                      .add(OnFetchMore(pageStatus: state.data.pageStatus));
                 }
               });
               return SingleChildScrollView(

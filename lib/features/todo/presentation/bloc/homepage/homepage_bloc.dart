@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo/api_config.dart';
 import 'package:todo/core/router/app_route.dart';
 import 'package:todo/core/router/todo_navigator.dart';
 
@@ -33,13 +34,23 @@ class HomepageBloc extends Bloc<HomepageEvent, TodoState<HomepageState>> {
       required this.setLastTouch,
       required this.getAuthDetail})
       : super(TodoLoading<HomepageState>()) {
+    // we use this variable to prevent multiple request to server when ui reach buttom and try to fetch more data
+    bool isLock = false;
+
     on<FetchHomeData>((event, emit) async {
-      final res = await getTodoList(event.pageStatus.todoStatus);
+      final res = await getTodoList(GetTodoListParam(
+          status: event.pageStatus.todoStatus,
+          fetchLocalOnly: event.fetchLocalOnly,
+          limit: apiLimit,
+          isAsc: isAsc,
+          sortBy: sortBy,
+          offset: 0));
       res.when(success: (data) {
         emit(TodoLoaded<HomepageState>(HomepageState(
-          todos: data.todos,
+          todos: data.tasks,
           pageStatus: event.pageStatus,
-          isFinalPage: data.isFinalPage,
+          isFinalPage: data.totalPages == data.pageNumber,
+          currentPage: data.pageNumber,
         )));
       }, failure: (e) {
         emit(TodoErrorState<HomepageState>(e));
@@ -66,8 +77,12 @@ class HomepageBloc extends Bloc<HomepageEvent, TodoState<HomepageState>> {
     on<OnDeleteTodo>((event, emit) async {
       final res = await deleteTodo(event.id);
       res.when(success: (data) {
-        add(FetchHomeData(
-            pageStatus: (state as TodoLoaded<HomepageState>).data.pageStatus));
+        isLock = false;
+        add(
+          FetchHomeData(
+              pageStatus: (state as TodoLoaded<HomepageState>).data.pageStatus,
+              fetchLocalOnly: true),
+        );
       }, failure: (e) {
         emit(TodoErrorState<HomepageState>(e));
       });
@@ -75,9 +90,38 @@ class HomepageBloc extends Bloc<HomepageEvent, TodoState<HomepageState>> {
 
     on<OnPageChanged>((event, emit) {
       if (state is TodoLoaded<HomepageState>) {
-        emit(TodoLoaded<HomepageState>((state as TodoLoaded<HomepageState>)
-            .data
-            .copyWith(pageStatus: event.pageStatus)));
+        isLock = false;
+        emit(TodoLoading());
+
+        //TODO : might need to save current page to state to avoid start fetch from offset 0 when switch page. for now it seems a bit over engineering
+        add(FetchHomeData(pageStatus: event.pageStatus));
+      }
+    });
+
+    on<OnFetchMore>((event, emit) async {
+      if (isLock) return;
+      isLock = true;
+      if (state is TodoLoaded<HomepageState>) {
+        final data = (state as TodoLoaded<HomepageState>).data;
+        if (!data.isFinalPage) {
+          final res = await getTodoList(GetTodoListParam(
+              status: event.pageStatus.todoStatus,
+              fetchLocalOnly: false,
+              limit: apiLimit,
+              isAsc: isAsc,
+              sortBy: sortBy,
+              offset: data.currentPage + 1));
+          res.when(success: (data) {
+            emit(TodoLoaded<HomepageState>(HomepageState(
+                todos: data.tasks,
+                pageStatus: event.pageStatus,
+                isFinalPage: data.pageNumber == data.totalPages,
+                currentPage: data.pageNumber)));
+            isLock = false;
+          }, failure: (e) {
+            emit(TodoErrorState<HomepageState>(e));
+          });
+        }
       }
     });
   }
