@@ -70,7 +70,11 @@ class TodoRepositoryImpl implements TodoRepository {
         });
       } else {
         return Result.success(TodoResponse(
-            tasks: objectboxService.todos, pageNumber: 1, totalPages: 1));
+            tasks: objectboxService.todos
+                .where((todo) => todo.status == param.status)
+                .toList(),
+            pageNumber: 1,
+            totalPages: 1));
       }
     } on TodoError catch (e) {
       return Result.failure(e);
