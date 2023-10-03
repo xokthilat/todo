@@ -35,8 +35,8 @@ Future<void> init() async {
         setLastTouch: sl(),
         setLastOnline: sl(),
       ));
-  sl.registerLazySingleton(() => HeaderCubit);
-  sl.registerFactory(() => HomepageBloc(
+  sl.registerLazySingleton(() => HeaderCubit());
+  sl.registerLazySingleton(() => HomepageBloc(
       getTodoList: sl(),
       getAuthDetail: sl(),
       deleteTodo: sl(),

@@ -89,13 +89,11 @@ class HomepageBloc extends Bloc<HomepageEvent, TodoState<HomepageState>> {
     });
 
     on<OnPageChanged>((event, emit) {
-      if (state is TodoLoaded<HomepageState>) {
-        isLock = false;
-        emit(TodoLoading());
+      isLock = false;
+      emit(TodoLoading());
 
-        //TODO : might need to save current page to state to avoid start fetch from offset 0 when switch page. for now it seems a bit over engineering
-        add(FetchHomeData(pageStatus: event.pageStatus));
-      }
+      //TODO : might need to save current page to state to avoid start fetch from offset 0 when switch page. for now it seems a bit over engineering
+      add(FetchHomeData(pageStatus: event.pageStatus));
     });
 
     on<OnFetchMore>((event, emit) async {

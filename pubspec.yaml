@@ -30,7 +30,6 @@ dependencies:
   freezed: ^2.4.1
   passcode_screen:
     path: ./exlibs/passcode_screen-2.0.1
-  cupertino_icons: ^1.0.6
 
 dev_dependencies:
   flutter_test:
