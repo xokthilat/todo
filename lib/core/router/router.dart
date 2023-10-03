@@ -5,6 +5,7 @@ import 'package:todo/core/service/local/objectbox_service.dart';
 import 'package:todo/features/todo/presentation/pages/homepage.dart';
 import 'package:todo/features/todo/presentation/pages/passcode_page.dart';
 
+import '../../auth_config.dart';
 import '../../service_locator.dart';
 
 bool isDateTimeMoreThanNSecondsAgo(DateTime dateTime, int n) {
@@ -16,11 +17,14 @@ bool isDateTimeMoreThanNSecondsAgo(DateTime dateTime, int n) {
 Route generateRoute(RouteSettings settings) {
   final localDatabase = sl<ObjectboxService>();
   final authDetail = localDatabase.authDetail;
+
+  // if authDetail is null, it means first time user open the app so we need to set the default passcode
   if (authDetail == null) {
+    localDatabase.setPasscode(defaultPasscode);
     return _getRoute(
         AppRoute.passcode,
         const PasscodePage(
-          passcodePageParams: PasscodePageParams.set,
+          passcodePageParams: PasscodePageParams.check,
         ));
   }
   final isLock =
