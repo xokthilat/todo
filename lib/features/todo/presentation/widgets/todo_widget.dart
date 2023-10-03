@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -24,8 +25,8 @@ class TodoWidget extends StatelessWidget {
       children: [
         ClipRRect(
           borderRadius: BorderRadius.circular(12),
-          child: Image.network(
-            'https://picsum.photos/250?image=9',
+          child: CachedNetworkImage(
+            imageUrl: 'https://picsum.photos/250?image=9',
             width: 50,
             height: 50,
             fit: BoxFit.cover,
