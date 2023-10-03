@@ -20,6 +20,7 @@ import 'package:todo/features/todo/domain/usecases/get_auth_detail.dart';
 import 'package:todo/features/todo/domain/usecases/set_last_online.dart';
 import 'package:todo/features/todo/domain/usecases/set_last_touch.dart';
 import 'package:todo/features/todo/domain/usecases/set_passcode.dart';
+import 'package:todo/features/todo/presentation/bloc/homepage/header_cubit.dart';
 import 'package:todo/features/todo/presentation/bloc/homepage/homepage_bloc.dart';
 import 'package:todo/features/todo/presentation/bloc/passcode/passcode_bloc.dart';
 
@@ -34,7 +35,7 @@ Future<void> init() async {
         setLastTouch: sl(),
         setLastOnline: sl(),
       ));
-
+  sl.registerLazySingleton(() => HeaderCubit);
   sl.registerFactory(() => HomepageBloc(
       getTodoList: sl(),
       getAuthDetail: sl(),

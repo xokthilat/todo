@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/core/style/todo_textstyle.dart';
+import 'package:todo/features/todo/presentation/bloc/homepage/header_cubit.dart';
 
 import '../../../../constants.dart';
 import '../../../../core/router/app_route.dart';
@@ -90,48 +91,36 @@ class HomeHeader extends StatelessWidget {
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-                  child: BlocBuilder<HomepageBloc, TodoState<HomepageState>>(
+                  child: BlocBuilder<HeaderCubit, PageStatus>(
                     builder: (context, state) {
-                      if (state is TodoLoaded<HomepageState>) {
-                        return Row(
-                          children: [
-                            Expanded(
-                              child: ChipTab(
-                                isActive:
-                                    state.data.pageStatus == PageStatus.todo,
-                                text: "To-Do",
-                                onTap: () =>
-                                    BlocProvider.of<HomepageBloc>(context).add(
-                                        OnPageChanged(
-                                            pageStatus: PageStatus.todo)),
-                              ),
+                      return Row(
+                        children: [
+                          Expanded(
+                            child: ChipTab(
+                              isActive: state == PageStatus.todo,
+                              text: "To-Do",
+                              onTap: () => BlocProvider.of<HeaderCubit>(context)
+                                  .changePage(PageStatus.todo),
                             ),
-                            Expanded(
-                              child: ChipTab(
-                                isActive:
-                                    state.data.pageStatus == PageStatus.doing,
-                                text: "Doing",
-                                onTap: () =>
-                                    BlocProvider.of<HomepageBloc>(context).add(
-                                        OnPageChanged(
-                                            pageStatus: PageStatus.doing)),
-                              ),
+                          ),
+                          Expanded(
+                            child: ChipTab(
+                              isActive: state == PageStatus.doing,
+                              text: "Doing",
+                              onTap: () => BlocProvider.of<HeaderCubit>(context)
+                                  .changePage(PageStatus.doing),
                             ),
-                            Expanded(
-                              child: ChipTab(
-                                isActive:
-                                    state.data.pageStatus == PageStatus.done,
-                                text: "Done",
-                                onTap: () =>
-                                    BlocProvider.of<HomepageBloc>(context).add(
-                                        OnPageChanged(
-                                            pageStatus: PageStatus.done)),
-                              ),
+                          ),
+                          Expanded(
+                            child: ChipTab(
+                              isActive: state == PageStatus.done,
+                              text: "Done",
+                              onTap: () => BlocProvider.of<HeaderCubit>(context)
+                                  .changePage(PageStatus.done),
                             ),
-                          ],
-                        );
-                      }
-                      return Container();
+                          ),
+                        ],
+                      );
                     },
                   ),
                 ),
