@@ -30,7 +30,7 @@ import 'features/todo/domain/usecases/get_todo_list.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
-  sl.registerFactory(() => PasscodeBloc(
+  sl.registerLazySingleton(() => PasscodeBloc(
         checkPasscode: sl(),
         setPasscode: sl(),
         setLastTouch: sl(),

@@ -37,13 +37,10 @@ class _HomepageState extends State<Homepage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<HomepageBloc>(
-            create: (context) => sl<HomepageBloc>()
+        BlocProvider<HomepageBloc>.value(
+            value: sl<HomepageBloc>()
               ..add(FetchHomeData(pageStatus: PageStatus.todo))
               ..add(OnStartInactiveValidation())),
-        BlocProvider<HeaderCubit>(
-          create: (context) => sl<HeaderCubit>(),
-        ),
       ],
       child: BlocListener<HeaderCubit, PageStatus>(
         listener: (context, state) {
