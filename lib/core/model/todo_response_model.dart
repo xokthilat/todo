@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:todo/core/entities/todo_response.dart';
 
 import '../../features/todo/data/models/todo_model.dart';
@@ -5,6 +6,7 @@ import '../../features/todo/domain/entities/todo.dart';
 import '../interface/models/base_network_model.dart';
 
 class TodoResponseModel extends BaseNetworkModel<TodoResponseModel>
+    with EquatableMixin
     implements TodoResponse {
   @override
   late final int pageNumber;
@@ -24,4 +26,7 @@ class TodoResponseModel extends BaseNetworkModel<TodoResponseModel>
           .toList()
       ..totalPages = json['totalPages'] as int;
   }
+
+  @override
+  List<Object?> get props => [pageNumber, totalPages, tasks];
 }

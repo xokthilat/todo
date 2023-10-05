@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:todo/core/interface/response/todo_error.dart';
 import 'package:todo/core/interface/response/result.dart';
 import 'package:todo/core/model/todo_response_model.dart';
@@ -17,10 +16,12 @@ class TodoRepositoryImpl implements TodoRepository {
   final NetworkExecuter networkExecuter;
   final ObjectboxService objectboxService;
   final NetworkConnectivity networkConnectivity;
+  final Function(String, Color, Color) onErrorToast;
   TodoRepositoryImpl({
     required this.networkExecuter,
     required this.objectboxService,
     required this.networkConnectivity,
+    required this.onErrorToast,
   });
   int limit = 10;
   bool isFirstTime = true;
@@ -71,11 +72,9 @@ class TodoRepositoryImpl implements TodoRepository {
           return Result.failure(error);
         });
       } else {
-        Fluttertoast.showToast(
-          msg: "No internet connection, using local data",
-          backgroundColor: Colors.amber,
-          textColor: Colors.white,
-        );
+        onErrorToast("No internet connection, using local data", Colors.amber,
+            Colors.white);
+
         return Result.success(TodoResponse(
             tasks: objectboxService.todos
                 .where((todo) => todo.status == param.status)

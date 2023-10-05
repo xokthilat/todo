@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cross_connectivity/cross_connectivity.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:todo/core/router/todo_navigator.dart';
@@ -54,6 +55,13 @@ Future<void> init() async {
         networkExecuter: sl(),
         objectboxService: sl(),
         networkConnectivity: sl(),
+        onErrorToast: (p0, p1, p2) {
+          Fluttertoast.showToast(
+            msg: p0,
+            backgroundColor: p1,
+            textColor: p2,
+          );
+        },
       ));
   sl.registerLazySingleton(() => NetworkExecuter(
       debugMode: kDebugMode,
