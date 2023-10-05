@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:todo/core/interface/response/todo_error.dart';
 import 'package:todo/core/interface/response/result.dart';
 import 'package:todo/core/model/todo_response_model.dart';
@@ -69,6 +71,11 @@ class TodoRepositoryImpl implements TodoRepository {
           return Result.failure(error);
         });
       } else {
+        Fluttertoast.showToast(
+          msg: "No internet connection, using local data",
+          backgroundColor: Colors.amber,
+          textColor: Colors.white,
+        );
         return Result.success(TodoResponse(
             tasks: objectboxService.todos
                 .where((todo) => todo.status == param.status)

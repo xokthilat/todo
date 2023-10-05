@@ -64,14 +64,20 @@ class _PasscodePageState extends State<PasscodePage> {
                         msg: (state as LocalRequestError).errMsg!);
                   } else {
                     Fluttertoast.showToast(
-                        msg: "Something went wrong, please try again");
+                      msg: "Something went wrong, please try again",
+                      backgroundColor: Colors.red,
+                      textColor: Colors.white,
+                    );
                   }
                 } else if (state is TodoLoaded<bool>) {
                   if (state.data) {
                     sl<TodoNavigator>().navigateTo(AppRoute.home);
                   } else {
                     Fluttertoast.showToast(
-                        msg: "Wrong passcode, please try again");
+                      msg: "Wrong passcode, please try again",
+                      backgroundColor: Colors.red,
+                      textColor: Colors.white,
+                    );
                   }
                 }
               },
