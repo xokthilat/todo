@@ -7,7 +7,8 @@ import '../widgets/home_header.dart';
 import '../widgets/todo_listview.dart';
 
 class Homepage extends StatefulWidget {
-  const Homepage({super.key});
+  final bool shouldEnableImage;
+  const Homepage({super.key, this.shouldEnableImage = true});
 
   @override
   State<Homepage> createState() => _HomepageState();
@@ -38,26 +39,30 @@ class _HomepageState extends State<Homepage> with WidgetsBindingObserver {
     return MultiBlocProvider(
       providers: [
         BlocProvider<HomepageBloc>.value(
-            value: sl<HomepageBloc>()
+            value: BlocProvider.of<HomepageBloc>(context)
               ..add(FetchHomeData(pageStatus: PageStatus.todo))
               ..add(OnStartInactiveValidation())),
       ],
       child: BlocListener<HeaderCubit, PageStatus>(
         listener: (context, state) {
-          sl<HomepageBloc>().add(OnPageChanged(pageStatus: state));
+          BlocProvider.of<HomepageBloc>(context)
+              .add(OnPageChanged(pageStatus: state));
         },
         child: TapRegion(
-          onTapInside: (event) => sl<HomepageBloc>().add(OnSubmitLastTouch()),
-          child: const Scaffold(
+          onTapInside: (event) =>
+              BlocProvider.of<HomepageBloc>(context).add(OnSubmitLastTouch()),
+          child: Scaffold(
             backgroundColor: Colors.white,
             body: Column(
               children: [
-                HomeHeader(),
-                SizedBox(
+                const HomeHeader(),
+                const SizedBox(
                   height: 30,
                 ),
                 Expanded(
-                  child: TodoListView(),
+                  child: TodoListView(
+                    shouldEnableImage: widget.shouldEnableImage,
+                  ),
                 )
               ],
             ),

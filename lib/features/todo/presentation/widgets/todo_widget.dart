@@ -14,24 +14,28 @@ class TodoWidget extends StatelessWidget {
   const TodoWidget({
     super.key,
     required this.todo,
+    this.shouldEnableImage = true,
   });
 
   final Todo todo;
+  final bool shouldEnableImage;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: CachedNetworkImage(
-            imageUrl: 'https://picsum.photos/250?image=9',
-            width: 50,
-            height: 50,
-            fit: BoxFit.cover,
-          ),
-        ),
+        shouldEnableImage
+            ? ClipRRect(
+                borderRadius: BorderRadius.circular(12),
+                child: CachedNetworkImage(
+                  imageUrl: 'https://picsum.photos/250?image=9',
+                  width: 50,
+                  height: 50,
+                  fit: BoxFit.cover,
+                ),
+              )
+            : const SizedBox(),
         const SizedBox(
           width: 10,
         ),

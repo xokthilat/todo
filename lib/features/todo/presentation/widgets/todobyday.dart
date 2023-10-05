@@ -9,10 +9,12 @@ import '../bloc/homepage/homepage_bloc.dart';
 class TodoByDay extends StatelessWidget {
   final List<Todo> todos;
   final String title;
+  final bool shouldEnableImage;
   const TodoByDay({
     super.key,
     required this.todos,
     required this.title,
+    this.shouldEnableImage = true,
   });
 
   @override
@@ -54,7 +56,10 @@ class TodoByDay extends StatelessWidget {
                   },
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 15.0),
-                    child: TodoWidget(todo: todos[index]),
+                    child: TodoWidget(
+                      todo: todos[index],
+                      shouldEnableImage: shouldEnableImage,
+                    ),
                   ),
                 ))
       ],

@@ -9,8 +9,10 @@ import '../../../../core/state/todo_state.dart';
 import '../bloc/homepage/homepage_bloc.dart';
 
 class TodoListView extends StatelessWidget {
+  final bool shouldEnableImage;
   const TodoListView({
     super.key,
+    this.shouldEnableImage = true,
   });
 
   @override
@@ -53,6 +55,7 @@ class TodoListView extends StatelessWidget {
                               todos: groupedByDate.values.toList()[index],
                               title: formatRelativeDate(DateTime.parse(
                                   groupedByDate.keys.toList()[index])),
+                              shouldEnableImage: shouldEnableImage,
                             ),
                             const SizedBox(
                               height: 10,

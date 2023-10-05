@@ -4,6 +4,6 @@ class NetworkConnectivity {
   final Connectivity connectivity;
   NetworkConnectivity({required this.connectivity});
   Future<bool> get status async {
-    return await Future.value(false);
+    return await connectivity.checkConnection();
   }
 }

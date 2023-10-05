@@ -14,10 +14,6 @@ class MockTodoRepository extends Mock implements TodoRepository {}
 void main() {
   late final MockTodoRepository mockTodoRepository;
   late final GetTodoList getTodoList;
-  setUpAll(() {
-    mockTodoRepository = MockTodoRepository();
-    getTodoList = GetTodoList(mockTodoRepository);
-  });
   var fakeTodo = TodoDao(
       description: "description",
       title: "title",
@@ -32,15 +28,23 @@ void main() {
   const sortBy = "createdAt";
   const isAsc = false;
   const status = TodoStatus.TODO;
-  test('should get todo list success form repo', () async {
-    //arrange
-    when(() => mockTodoRepository.getTodoList(GetTodoListParam(
+  setUpAll(() {
+    mockTodoRepository = MockTodoRepository();
+    getTodoList = GetTodoList(mockTodoRepository);
+    registerFallbackValue(TodoStatus.TODO);
+    registerFallbackValue(GetTodoListParam(
         status: status,
         fetchLocalOnly: false,
         limit: limit,
         sortBy: sortBy,
         isAsc: isAsc,
-        offset: offset))).thenAnswer((_) async => Result.success(fakeTodoRes));
+        offset: offset));
+  });
+
+  test('should get todo list success form repo', () async {
+    //arrange
+    when(() => mockTodoRepository.getTodoList(any()))
+        .thenAnswer((_) async => Result.success(fakeTodoRes));
     //act
     final result = await getTodoList(GetTodoListParam(
         status: status,
@@ -50,24 +54,21 @@ void main() {
         isAsc: isAsc,
         offset: offset));
 
+    verify(() => mockTodoRepository.getTodoList(any()));
+
     result.when(success: (data) {
-      expect(data, equals(true));
+      expect(data, fakeTodoRes);
     }, failure: (error) {
       throw error;
     });
 
     verifyNoMoreInteractions(mockTodoRepository);
   });
+
   test('should get error when try to fetch todo form repo', () async {
-    when(() => mockTodoRepository.getTodoList(
-        GetTodoListParam(
-            status: status,
-            fetchLocalOnly: false,
-            limit: limit,
-            sortBy: sortBy,
-            isAsc: isAsc,
-            offset: offset))).thenAnswer((_) async => Result.failure(
-        RequestError(error: DioException(requestOptions: RequestOptions()))));
+    when(() => mockTodoRepository.getTodoList(any())).thenAnswer((_) async =>
+        Result.failure(RequestError(
+            error: DioException(requestOptions: RequestOptions()))));
     final result = await getTodoList(GetTodoListParam(
         status: status,
         fetchLocalOnly: false,
@@ -75,6 +76,8 @@ void main() {
         sortBy: sortBy,
         isAsc: isAsc,
         offset: offset));
+
+    verify(() => mockTodoRepository.getTodoList(any()));
 
     result.when(success: (data) {
       throw data;
