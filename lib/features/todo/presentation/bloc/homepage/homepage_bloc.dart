@@ -47,10 +47,13 @@ class HomepageBloc extends Bloc<HomepageEvent, TodoState<HomepageState>> {
           sortBy: sortBy,
           offset: 0));
       res.when(success: (data) {
+        // if task is more than apiLimit * data.totalPages - 1 also mean we reach the last page
+
         emit(TodoLoaded<HomepageState>(HomepageState(
           todos: data.tasks,
           pageStatus: event.pageStatus,
-          isFinalPage: data.totalPages == data.pageNumber,
+          isFinalPage: (data.totalPages == data.pageNumber) ||
+              (data.tasks.length > apiLimit * data.totalPages - 1),
           currentPage: data.pageNumber,
         )));
       }, failure: (e) {
