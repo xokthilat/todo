@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:todo/core/state/todo_state.dart';
@@ -8,8 +7,6 @@ import 'package:todo/features/todo/presentation/bloc/homepage/header_cubit.dart'
 import 'package:todo/features/todo/presentation/bloc/homepage/homepage_bloc.dart';
 import 'package:todo/main.dart';
 import 'package:todo/service_locator.dart';
-
-import '../test/test_navigator_observe.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
