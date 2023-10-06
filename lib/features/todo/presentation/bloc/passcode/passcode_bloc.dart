@@ -18,7 +18,6 @@ class PasscodeBloc extends Bloc<PasscodeEvent, TodoState<bool>> {
     required this.setLastOnline,
     required this.setLastTouch,
   }) : super(TodoLoading()) {
-    print("created");
     on<PasscodeChanged>((event, emit) async {
       final res = await setPasscode(event.passcode);
       res.when(success: (id) {

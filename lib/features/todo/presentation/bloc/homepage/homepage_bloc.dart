@@ -38,6 +38,7 @@ class HomepageBloc extends Bloc<HomepageEvent, TodoState<HomepageState>> {
     bool isLock = false;
 
     on<FetchHomeData>((event, emit) async {
+      emit(TodoLoading());
       final res = await getTodoList(GetTodoListParam(
           status: event.pageStatus.todoStatus,
           fetchLocalOnly: event.fetchLocalOnly,
@@ -138,22 +139,17 @@ class HomepageBloc extends Bloc<HomepageEvent, TodoState<HomepageState>> {
   FutureOr<void> _onStartInactiveValidation(OnStartInactiveValidation event,
       Emitter<TodoState<HomepageState>> emit) async {
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
-      final res = await setLastOnline(DateTime.now());
-      res.when(success: (data) async {
-        final res = await getAuthDetail(NoParams());
-        res.when(success: (auth) {
-          if (auth != null) {
-            final isLock = isDateTimeMoreThanNSecondsAgo(
-                auth.lastTouch, activeDurationInSec);
-            if (isLock) {
-              timer.cancel();
-              sl<TodoNavigator>().navigateAndRemoveTo(AppRoute.passcode,
-                  params: PasscodePageParams.check);
-            }
+      final res = await getAuthDetail(NoParams());
+      res.when(success: (auth) {
+        if (auth != null) {
+          final isLock = isDateTimeMoreThanNSecondsAgo(
+              auth.lastTouch, activeDurationInSec);
+          if (isLock) {
+            timer.cancel();
+            sl<TodoNavigator>().navigateAndRemoveTo(AppRoute.passcode,
+                params: PasscodePageParams.check);
           }
-        }, failure: (e) {
-          emit(TodoErrorState<HomepageState>(e));
-        });
+        }
       }, failure: (e) {
         emit(TodoErrorState<HomepageState>(e));
       });

@@ -102,6 +102,7 @@ class Keyboard extends StatelessWidget {
         child: Material(
           color: Colors.transparent,
           child: InkWell(
+            key: Key(text),
             splashColor: keyboardUIConfig.primaryColor.withOpacity(0.4),
             onTap: () {
               onKeyboardTap(text);

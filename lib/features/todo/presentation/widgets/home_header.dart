@@ -45,6 +45,7 @@ class HomeHeader extends StatelessWidget {
                         "Lorem Ipsum".h1.highlightColor,
                         Builder(builder: (ctx) {
                           return InkWell(
+                            key: const Key("settings"),
                             onTap: () {
                               BlocProvider.of<HomepageBloc>(ctx)
                                   .add(OnStopInactiveValidation());
@@ -96,6 +97,7 @@ class HomeHeader extends StatelessWidget {
                         children: [
                           Expanded(
                             child: ChipTab(
+                              key: const Key("todo"),
                               isActive: state == PageStatus.todo,
                               text: "To-Do",
                               onTap: () => BlocProvider.of<HeaderCubit>(context)
@@ -104,6 +106,7 @@ class HomeHeader extends StatelessWidget {
                           ),
                           Expanded(
                             child: ChipTab(
+                              key: const Key("doing"),
                               isActive: state == PageStatus.doing,
                               text: "Doing",
                               onTap: () => BlocProvider.of<HeaderCubit>(context)
@@ -112,6 +115,7 @@ class HomeHeader extends StatelessWidget {
                           ),
                           Expanded(
                             child: ChipTab(
+                              key: const Key("done"),
                               isActive: state == PageStatus.done,
                               text: "Done",
                               onTap: () => BlocProvider.of<HeaderCubit>(context)

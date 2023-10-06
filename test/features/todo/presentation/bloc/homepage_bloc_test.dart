@@ -86,6 +86,7 @@ void main() {
         build: () => homepageBloc,
         act: (bloc) => bloc.add(FetchHomeData(pageStatus: PageStatus.todo)),
         expect: () => [
+          isA<TodoLoading<HomepageState>>(),
           isA<TodoLoaded<HomepageState>>()
             ..having(
                 (p0) => p0,
@@ -142,6 +143,7 @@ void main() {
           verify(() => mockDeleteTodo(any())).called(1);
         },
         expect: () => [
+          isA<TodoLoading<HomepageState>>(),
           isA<TodoLoaded<HomepageState>>()
             ..having(
                 (p0) => p0,
@@ -168,6 +170,7 @@ void main() {
         )),
         expect: () => [
           isA<TodoLoading<HomepageState>>(),
+          isA<TodoLoading<HomepageState>>(),
           isA<TodoLoaded<HomepageState>>()
             ..having(
                 (p0) => p0,
@@ -192,6 +195,7 @@ void main() {
         build: () => homepageBloc,
         act: (bloc) => bloc.add(FetchHomeData(pageStatus: PageStatus.todo)),
         expect: () => [
+          isA<TodoLoading<HomepageState>>(),
           isA<TodoErrorState<HomepageState>>()
             ..having(
                 (p0) => p0,
