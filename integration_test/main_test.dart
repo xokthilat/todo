@@ -16,7 +16,7 @@ void main() {
   });
   group('end-to-end test', () {
     testWidgets('Happy flow', (tester) async {
-      await tester.pumpWidget(MyApp());
+      await tester.pumpWidget(const MyApp());
 
       expect(find.text('Enter App Passcode'), findsOneWidget);
 
@@ -172,7 +172,7 @@ void main() {
       final itemFinder = find.text("Buy groceries");
 
       await tester.scrollUntilVisible(itemFinder, 500.0,
-          scrollable: listFinder, duration: Duration(seconds: 2));
+          scrollable: listFinder, duration: const Duration(seconds: 2));
       expect(itemFinder, findsOneWidget);
     });
   });

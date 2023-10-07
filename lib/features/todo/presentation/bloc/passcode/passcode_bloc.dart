@@ -55,10 +55,4 @@ class PasscodeBloc extends Bloc<PasscodeEvent, TodoState<bool>> {
           });
     });
   }
-  @override
-  Future<void> close() {
-    // TODO: implement close
-    print("close");
-    return super.close();
-  }
 }
