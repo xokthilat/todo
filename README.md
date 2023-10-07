@@ -30,7 +30,7 @@ A Task Management Application that includes required, optional (from the assignm
 
 - Optionally, provide the ability for the user to change the passcode, with the default passcode set as '123456' (Optional).
 
-- implementing an offline access feature, allowing the application to function without an internet connection (Developer add-on).
+- implementing an offline access feature, allowing the application to function on loaded page without an internet connection (Developer add-on).
 
 ## Screenshots
 
