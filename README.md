@@ -18,7 +18,7 @@ A Task Management Application that includes required, optional (from the assignm
 
 - If the user remains inactive for a period of 10 seconds or longer, the application should automatically redirect to a passcode page (Required).
 
-- The automatic redirection to the passcode page should occur even if the app is running in the background or remains open (Required).
+- The automatic redirection to the passcode page should occur even if the app is killed or remains open (Required).
 
 - The user should be able to continue using the app without redirection if their period of inactivity is shorter than 10 seconds, and the app is neither killed nor closed (Required).
 
