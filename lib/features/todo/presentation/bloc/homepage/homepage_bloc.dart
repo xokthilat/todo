@@ -13,7 +13,7 @@ import 'package:todo/features/todo/domain/usecases/set_last_touch.dart';
 import 'package:todo/features/todo/presentation/pages/passcode_page.dart';
 import 'package:todo/service_locator.dart';
 
-import '../../../../../constants.dart';
+import '../../../../../auth_config.dart';
 import '../../../../../core/router/router.dart';
 import '../../../../../core/usecases/usecase.dart';
 import '../../../domain/entities/todo.dart';

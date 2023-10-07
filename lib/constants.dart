@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-const activeDurationInSec = 10;
 const primaryColor = Color(0xffeaedff);
 const secondaryColor = Color(0xffdde0e5);
 const highlightColor = Color(0xff9d959d);
