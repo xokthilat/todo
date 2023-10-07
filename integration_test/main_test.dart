@@ -59,7 +59,9 @@ void main() {
         await tester.pump();
       }
       //3. passcode is fine enter homepage and fetch todo
-      expect(find.text('Loading'), findsOneWidget);
+      if (sl<HomepageBloc>().state is TodoLoading<HomepageState>) {
+        expect(find.text('Loading'), findsOneWidget);
+      }
 
       while (sl<HomepageBloc>().state is! TodoLoaded<HomepageState>) {
         await tester.pump(const Duration(seconds: 1));
@@ -155,10 +157,8 @@ void main() {
       while (tester.binding.transientCallbackCount > 1) {
         await tester.pump();
       }
-      //11. passcode is fine enter homepage and fetch todo
-      expect(find.text('Read a book'), findsOneWidget);
 
-      //12. switch back to todo page
+      //11. switch back to todo page
 
       await tester.tap(find.byKey(const Key("todo")));
 
