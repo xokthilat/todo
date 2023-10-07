@@ -109,4 +109,12 @@ chmod +x run_integration_test.sh
 Note that the 'run_integration_test.sh' was created to run accuracy tests 100 times, and you can edit it by changing the 'running_number' parameter inside the file.
 ## Project Structure
 This project adheres to the Clean Architecture software design principle, which includes a self-made library for the network layer. 
+
+
 ![Clean-Architecture-Flutter-Diagram](https://github.com/xokthilat/todo/assets/32994521/b8e8c72f-e3a6-484f-a04e-3e38a551fb4d)
+
+## Android APK
+
+![IzBq58](https://github.com/xokthilat/todo/assets/32994521/87344173-cf9d-4554-9442-9079b8d633af)
+
+
