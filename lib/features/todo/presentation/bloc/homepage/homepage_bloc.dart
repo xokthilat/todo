@@ -48,12 +48,12 @@ class HomepageBloc extends Bloc<HomepageEvent, TodoState<HomepageState>> {
           offset: 0));
       res.when(success: (data) {
         // if task is more than apiLimit * data.totalPages - 1 also mean we reach the last page
-
+        // pageNumber start from 0 so we need to add 1 to currentPage
         emit(TodoLoaded<HomepageState>(HomepageState(
           todos: data.tasks,
           pageStatus: event.pageStatus,
-          isFinalPage: (data.totalPages == data.pageNumber) ||
-              (data.tasks.length > apiLimit * data.totalPages - 1),
+          isFinalPage: (data.totalPages == data.pageNumber + 1) ||
+              (data.tasks.length > apiLimit * (data.totalPages - 1)),
           currentPage: data.pageNumber,
         )));
       }, failure: (e) {
@@ -114,10 +114,14 @@ class HomepageBloc extends Bloc<HomepageEvent, TodoState<HomepageState>> {
               sortBy: sortBy,
               offset: data.currentPage + 1));
           res.when(success: (data) {
+            // if task is more than apiLimit * (data.totalPages - 1) also mean we reach the last page
+            // pageNumber start from 0 so we need to add 1 to currentPage
+
             emit(TodoLoaded<HomepageState>(HomepageState(
                 todos: data.tasks,
                 pageStatus: event.pageStatus,
-                isFinalPage: data.pageNumber == data.totalPages,
+                isFinalPage: (data.totalPages == data.pageNumber + 1) ||
+                    (data.tasks.length > apiLimit * (data.totalPages - 1)),
                 currentPage: data.pageNumber)));
             isLock = false;
           }, failure: (e) {

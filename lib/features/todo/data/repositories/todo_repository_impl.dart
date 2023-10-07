@@ -31,12 +31,14 @@ class TodoRepositoryImpl implements TodoRepository {
       GetTodoListParam param) async {
     try {
       if (param.fetchLocalOnly) {
-        return Result.success(TodoResponse(
-            tasks: objectboxService.todos
-                .where((todo) => todo.status == param.status)
-                .toList(),
-            pageNumber: 1,
-            totalPages: 1));
+        final todos = objectboxService.todos
+            .where((todo) => todo.status == param.status)
+            .toList();
+        if (param.isAsc) {
+          todos.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+        }
+        return Result.success(
+            TodoResponse(tasks: todos, pageNumber: 1, totalPages: 1));
       }
       if (await networkConnectivity.status) {
         var result =
@@ -74,13 +76,14 @@ class TodoRepositoryImpl implements TodoRepository {
       } else {
         onErrorToast("No internet connection, using local data", Colors.amber,
             Colors.white);
-
-        return Result.success(TodoResponse(
-            tasks: objectboxService.todos
-                .where((todo) => todo.status == param.status)
-                .toList(),
-            pageNumber: 1,
-            totalPages: 1));
+        final todos = objectboxService.todos
+            .where((todo) => todo.status == param.status)
+            .toList();
+        if (param.isAsc) {
+          todos.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+        }
+        return Result.success(
+            TodoResponse(tasks: todos, pageNumber: 1, totalPages: 1));
       }
     } on TodoError catch (e) {
       return Result.failure(e);
